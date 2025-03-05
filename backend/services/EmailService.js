@@ -1,9 +1,15 @@
+require('dotenv').config()
 const { Resend } = require('resend')
 const { InvalidParamError } = require('../factory/ErrorsFactory')
 
 class EmailService {
     constructor() {
-        this.resendClient = null
+        const apiKey = process.env.RESEND_API_KEY || null
+        if (!apiKey) {
+            throw new Error('API Key is required')
+        }
+        this.resendClient = new Resend(apiKey)
+
         this.defaultFrom = 'Amazing Posts <amazingposts@resend.dev>'
     }
 
@@ -13,6 +19,7 @@ class EmailService {
         }
 
         this.resendClient = new Resend(apiKey)
+
         if (fromAddress) {
             this.defaultFrom = fromAddress
         }
