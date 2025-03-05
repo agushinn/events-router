@@ -1,0 +1,85 @@
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 32rem;
+    height: 12rem;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background-color: rgb(168 189 203 / 45%);
+    backdrop-filter: blur(35px);
+    border-radius: 5px;
+    animation: fadeIn 0.2s ease 0s 1 normal both;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+
+    @media (max-width: 768px) {
+        width: 90%;
+    }
+}
+
+.modalOverlay h3 {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.buttonsContainer {
+    width: 90%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.buttonsContainer button {
+    color: white;
+    width: 9em;
+    border: none;
+    margin-left: 1em;
+    border-radius: 5px;
+    height: 2rem;
+    margin-bottom: 1rem;
+}
+
+.cancelButton {
+    background-color: var(--color-black);
+    color: var(--color-gray-800);
+}
+
+.cancelButton:hover {
+    background-color: var(--color-black-05);
+}
+
+.redButton {
+    background-color: var(--color-red-700);
+}
+
+.redButton:hover {
+    background-color: var(--color-redish-700);
+}
+
+.modalOverlay h3 {
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
