@@ -31,8 +31,8 @@ app.use((error, req, res, next) => {
     res.status(status).json({ message })
 })
 
-app.listen(8080, () => {
-    console.log(`Server is running on 8080  - MVC`)
-})
+// app.listen(8080, () => {
+//     console.log(`Server is running on 8080  - MVC`)
+// })
 
 module.exports.handler = serverless(app)
