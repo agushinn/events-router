@@ -2,7 +2,7 @@ const express = require('express')
 
 // const serverless = require('serverless-http')
 // const authRoutes = require('./routes/AuthRoutes')
-// const eventRoutes = require('./routes/EventRoutes')
+const eventRoutes = require('./routes/EventRoutes')
 // const newsletterRoutes = require('./routes/NewsletterRoutes')
 // const emailRoutes = require('./routes/EmailRoutes')
 
@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 })
 
 // app.use('/auth', authRoutes)
-// app.use('/events', eventRoutes)
+app.use('/events', eventRoutes)
 // app.use('/newsletters', newsletterRoutes)
 // app.use('/emails', emailRoutes)
 app.get('/test', (req, res) => {
