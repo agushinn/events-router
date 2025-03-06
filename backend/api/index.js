@@ -25,10 +25,13 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use('/auth', authRoutes)
-app.use('/events', eventRoutes)
-app.use('/newsletters', newsletterRoutes)
-app.use('/emails', emailRoutes)
+// app.use('/auth', authRoutes)
+// app.use('/events', eventRoutes)
+// app.use('/newsletters', newsletterRoutes)
+// app.use('/emails', emailRoutes)
+app.get('/test', (req, res) => {
+    res.json({ message: 'Funciona!' })
+})
 
 app.use((error, req, res, next) => {
     const status = error.status || 500
@@ -40,5 +43,4 @@ app.use((error, req, res, next) => {
 //     console.log(`Server is running on 8080  - MVC`)
 // })
 
-module.exports = app
-module.exports.handler = serverless(app)
+exports.handler = serverless(app) // <-- Exportación nombrada
