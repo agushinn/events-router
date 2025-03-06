@@ -1,4 +1,4 @@
-const { v4: generateId } = require('uuid')
+const { v4: uuidv4 } = require('uuid')
 const { readData, writeData } = require('../utils/fileUtils')
 const { NotFoundError, InvalidParamError } = require('../factory/ErrorsFactory')
 
@@ -22,7 +22,7 @@ async function add(email) {
         throw new InvalidParamError('Email already suscribed')
     }
 
-    const emailId = generateId()
+    const emailId = uuidv4()
     storedData.newsletters = storedData.newsletters || []
     storedData.newsletters.push({ id: emailId, email: email })
 

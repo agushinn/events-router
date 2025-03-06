@@ -1,5 +1,5 @@
 const { hash } = require('bcryptjs')
-const { v4: generateId } = require('uuid')
+const { v4: uuidv4 } = require('uuid')
 
 const USER_ROLES = {
     CREATE: 'CREATE',
@@ -32,7 +32,7 @@ const USER_TYPES = {
 }
 class User {
     constructor(email, password, type) {
-        this.id = generateId()
+        this.id = uuidv4()
         this.email = email
         this.password = password
         this.type = type.name

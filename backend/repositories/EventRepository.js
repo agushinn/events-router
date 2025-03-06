@@ -1,4 +1,4 @@
-const { v4: generateId } = require('uuid')
+const { v4: uuidv4 } = require('uuid')
 const { NotFoundError } = require('../factory/ErrorsFactory')
 const { readData, writeData } = require('../utils/fileUtils')
 
@@ -14,7 +14,7 @@ async function getAll() {
 
 async function add(data) {
     const storedData = await readData()
-    const eventId = generateId()
+    const eventId = uuidv4()
 
     storedData.events.unshift({ ...data, id: eventId })
 
