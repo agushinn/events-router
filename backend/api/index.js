@@ -25,10 +25,10 @@ app.use((req, res, next) => {
     next()
 })
 
-// app.use('/auth', authRoutes)
-// app.use('/events', eventRoutes)
-// app.use('/newsletters', newsletterRoutes)
-// app.use('/emails', emailRoutes)
+app.use('/auth', authRoutes)
+app.use('/events', eventRoutes)
+app.use('/newsletters', newsletterRoutes)
+app.use('/emails', emailRoutes)
 app.get('/test', (req, res) => {
     res.json({ message: 'Funciona!' })
 })
