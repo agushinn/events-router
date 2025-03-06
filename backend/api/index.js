@@ -43,4 +43,4 @@ app.use((error, req, res, next) => {
 //     console.log(`Server is running on 8080  - MVC`)
 // })
 
-exports.handler = serverless(app) // <-- Exportación nombrada
+module.exports = serverless(app) // <-- Exportación nombrada
