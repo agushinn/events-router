@@ -1,8 +1,8 @@
 const express = require('express')
-const authRoutes = require('./routes/authRoutes')
-const eventRoutes = require('./routes/eventRoutes')
-const newsletterRoutes = require('./routes/newsletterRoutes')
-const emailRoutes = require('./routes/EmailRoutes')
+const authRoutes = require('../routes/authRoutes')
+const eventRoutes = require('../routes/eventRoutes')
+const newsletterRoutes = require('../routes/newsletterRoutes')
+const emailRoutes = require('../routes/EmailRoutes')
 
 const app = express()
 
