@@ -40,5 +40,4 @@ app.use((error, req, res, next) => {
 //     console.log(`Server is running on 8080  - MVC`)
 // })
 
-// module.exports = serverless(app) // tira 504
-exports.handler = serverless(app)
+module.exports = serverless(app)
