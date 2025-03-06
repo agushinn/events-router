@@ -1,12 +1,15 @@
 const fs = require('node:fs/promises')
+const path = require('node:path')
 
 async function readData() {
-    const data = await fs.readFile('events.json', 'utf8')
+    const filePath = path.join(__dirname, '../events.json')
+    const data = await fs.readFile(filePath, 'utf8')
     return JSON.parse(data)
 }
 
 async function writeData(data) {
-    await fs.writeFile('events.json', JSON.stringify(data))
+    const filePath = path.join(__dirname, '../events.json')
+    await fs.writeFile(filePath, JSON.stringify(data))
 }
 
 module.exports = {

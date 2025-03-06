@@ -1,1 +1,98 @@
-{"events":[{"title":"Walk in the forest","image":"https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&","date":"2025-04-28","description":"Embark on a rejuvenating journey with our Forest Walk. Meander along winding trails, discover hidden groves, and listen to nature’s calming symphony of rustling leaves and chirping birds. Whether you're a seasoned explorer or a curious wanderer, this experience offers the perfect escape to reconnect with the serene beauty of the great outdoors.","author_id":"e74b09fb-3f45-4bce-b176-202a82771a85","id":"908dcac5-2869-40ea-a588-94301497d112"},{"title":"Seminar Moon","image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvIzpE0RtC7z7mNKlGCfZVu-76ycBg8B0nPw&usqp=CAU","date":"2025-11-11","description":"Embark on a lunar journey at our Moon Seminar, where mysteries of the moon come to life. Dive into groundbreaking research, historical insights, and visionary ideas about space exploration. Whether you're a seasoned expert or a curious mind, this seminar offers a captivating blend of science and wonder that will redefine your view of our celestial neighbor.","author_id":"e74b09fb-3f45-4bce-b176-202a82771a85","id":"55943ae0-a0b0-4d7d-987d-ed3f0933dc1b"},{"title":"Expo art","image":"https://th.bing.com/th/id/OIG.lVXjWwlHyIo4QdjnC1YE","date":"2025-04-13","description":"Step into \"Colors of Emotion,\" an exhibition that celebrates the fusion of technique and passion. Discover artworks that invite you to explore fresh perspectives, with each brushstroke telling its own unique story. Experience art up close and let inspiration guide you!","author_id":"6b972823-a45a-4107-bbc9-1f4f3c6f2980","id":"1977c9d6-da7a-4fdf-8895-120c1b727043"}],"users":[{"id":"6b972823-a45a-4107-bbc9-1f4f3c6f2980","email":"rys.agustin@gmail.com","password":"$2b$12$VhO33qUresRi9KYraJC6HOL2IeK2npU5s59Vu8AJZTM8aQJT87e82","type":"REGULAR","roles":["CREATE","READ","UPDATE","DELETE"]},{"id":"b31e65a8-0af7-4950-8e82-643b03546fb2","email":"admin@admin.admin","password":"$2b$12$NEn4n4isfGXFGrOWgGjgPulOn1smvMaZaHF/sU7ULjzjTcJBgDziG","type":"ADMIN","roles":["CREATE","READ","UPDATE","DELETE","CONTROL_PANEL"]},{"id":"e74b09fb-3f45-4bce-b176-202a82771a85","email":"random@mail.com","password":"$2b$12$zUrVD1FEuQALPFBni5dqhuCBAUxPKhlNNDypyLQWiekMn0IjuBUdK","type":"REGULAR","roles":["CREATE","READ","UPDATE","DELETE"]},{"id":"5aa9c4c0-9ccd-43ec-862b-d8af359ddfa2","email":"newadmin@admin.com","password":"$2b$12$Gs9RLmCPMvWAVcR0Q0RS/Of7UJO87jOpX6VB2F4Y11SnKBEHGIonG","type":"ADMIN","roles":["CREATE","READ","UPDATE","DELETE","CONTROL_PANEL"]}],"newsletters":[{"id":"e745ddbe-6ae5-4dd8-8e41-7cc03a3c06fa","email":"random@mail.com"},{"id":"780b7330-ccdc-41b9-bb20-a2aed8748bf4","email":"rys.agustin@gmail.com"},{"id":"164d8ebc-40fc-41ca-aa94-db1b8c032b4a","email":"asd@gmail.com"},{"id":"875c5c9f-bb13-4fbb-ba26-7ad3e9030ceb","email":"cc@asd.com"}]}
+{
+    "events": [
+        {
+            "title": "Walk in the forest",
+            "image": "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&",
+            "date": "2025-04-28",
+            "description": "Embark on a rejuvenating journey with our Forest Walk. Meander along winding trails, discover hidden groves, and listen to nature’s calming symphony of rustling leaves and chirping birds. Whether you're a seasoned explorer or a curious wanderer, this experience offers the perfect escape to reconnect with the serene beauty of the great outdoors.",
+            "author_id": "e74b09fb-3f45-4bce-b176-202a82771a85",
+            "id": "908dcac5-2869-40ea-a588-94301497d112"
+        },
+        {
+            "title": "Seminar Moon",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvIzpE0RtC7z7mNKlGCfZVu-76ycBg8B0nPw&usqp=CAU",
+            "date": "2025-11-11",
+            "description": "Embark on a lunar journey at our Moon Seminar, where mysteries of the moon come to life. Dive into groundbreaking research, historical insights, and visionary ideas about space exploration. Whether you're a seasoned expert or a curious mind, this seminar offers a captivating blend of science and wonder that will redefine your view of our celestial neighbor.",
+            "author_id": "e74b09fb-3f45-4bce-b176-202a82771a85",
+            "id": "55943ae0-a0b0-4d7d-987d-ed3f0933dc1b"
+        },
+        {
+            "title": "Expo art",
+            "image": "https://th.bing.com/th/id/OIG.lVXjWwlHyIo4QdjnC1YE",
+            "date": "2025-04-13",
+            "description": "Step into \"Colors of Emotion,\" an exhibition that celebrates the fusion of technique and passion. Discover artworks that invite you to explore fresh perspectives, with each brushstroke telling its own unique story. Experience art up close and let inspiration guide you!",
+            "author_id": "6b972823-a45a-4107-bbc9-1f4f3c6f2980",
+            "id": "1977c9d6-da7a-4fdf-8895-120c1b727043"
+        }
+    ],
+    "users": [
+        {
+            "id": "6b972823-a45a-4107-bbc9-1f4f3c6f2980",
+            "email": "rys.agustin@gmail.com",
+            "password": "$2b$12$VhO33qUresRi9KYraJC6HOL2IeK2npU5s59Vu8AJZTM8aQJT87e82",
+            "type": "REGULAR",
+            "roles": [
+                "CREATE",
+                "READ",
+                "UPDATE",
+                "DELETE"
+            ]
+        },
+        {
+            "id": "b31e65a8-0af7-4950-8e82-643b03546fb2",
+            "email": "admin@admin.admin",
+            "password": "$2b$12$NEn4n4isfGXFGrOWgGjgPulOn1smvMaZaHF/sU7ULjzjTcJBgDziG",
+            "type": "ADMIN",
+            "roles": [
+                "CREATE",
+                "READ",
+                "UPDATE",
+                "DELETE",
+                "CONTROL_PANEL"
+            ]
+        },
+        {
+            "id": "e74b09fb-3f45-4bce-b176-202a82771a85",
+            "email": "random@mail.com",
+            "password": "$2b$12$zUrVD1FEuQALPFBni5dqhuCBAUxPKhlNNDypyLQWiekMn0IjuBUdK",
+            "type": "REGULAR",
+            "roles": [
+                "CREATE",
+                "READ",
+                "UPDATE",
+                "DELETE"
+            ]
+        },
+        {
+            "id": "5aa9c4c0-9ccd-43ec-862b-d8af359ddfa2",
+            "email": "newadmin@admin.com",
+            "password": "$2b$12$Gs9RLmCPMvWAVcR0Q0RS/Of7UJO87jOpX6VB2F4Y11SnKBEHGIonG",
+            "type": "ADMIN",
+            "roles": [
+                "CREATE",
+                "READ",
+                "UPDATE",
+                "DELETE",
+                "CONTROL_PANEL"
+            ]
+        }
+    ],
+    "newsletters": [
+        {
+            "id": "e745ddbe-6ae5-4dd8-8e41-7cc03a3c06fa",
+            "email": "random@mail.com"
+        },
+        {
+            "id": "780b7330-ccdc-41b9-bb20-a2aed8748bf4",
+            "email": "rys.agustin@gmail.com"
+        },
+        {
+            "id": "164d8ebc-40fc-41ca-aa94-db1b8c032b4a",
+            "email": "asd@gmail.com"
+        },
+        {
+            "id": "875c5c9f-bb13-4fbb-ba26-7ad3e9030ceb",
+            "email": "cc@asd.com"
+        }
+    ]
+}
