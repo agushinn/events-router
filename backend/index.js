@@ -2,7 +2,7 @@ const express = require('express')
 
 // const serverless = require('serverless-http')
 // const authRoutes = require('./routes/AuthRoutes')
-const eventRoutes = require('./routes/EventRoutes')
+const eventRoutes = require('../backend/routes/EventRoutes')
 // const newsletterRoutes = require('./routes/NewsletterRoutes')
 // const emailRoutes = require('./routes/EmailRoutes')
 
