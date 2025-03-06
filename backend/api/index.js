@@ -1,5 +1,5 @@
 const express = require('express')
-
+const serverless = require('serverless-http')
 const authRoutes = require('../routes/authRoutes')
 const eventRoutes = require('../routes/eventRoutes')
 const newsletterRoutes = require('../routes/newsletterRoutes')
@@ -35,4 +35,4 @@ app.listen(8080, () => {
     console.log(`Server is running on 8080  - MVC`)
 })
 
-module.exports = app
+module.exports.handler = serverless(app)
