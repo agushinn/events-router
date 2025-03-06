@@ -1,5 +1,4 @@
 const express = require('express')
-const serverless = require('serverless-http') // <-- Instálalo con `npm install serverless-http`
 
 const authRoutes = require('./routes/authRoutes')
 const eventRoutes = require('./routes/eventRoutes')
@@ -32,11 +31,8 @@ app.use((error, req, res, next) => {
     res.status(status).json({ message })
 })
 
-// if (!process.env.VERCEL) {
-//     const PORT = process.env.PORT || 8080
-//     app.listen(PORT, () => {
-//         console.log(`Server is running on port ${PORT} - MVC`)
-//     })
-// }
+app.listen(8080, () => {
+    console.log(`Server is running on 8080  - MVC`)
+})
 
-module.exports.handler = serverless(app)
+module.exports = app
