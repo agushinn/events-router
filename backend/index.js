@@ -2,13 +2,13 @@ const express = require('express')
 const path = require('path')
 
 const serverless = require('serverless-http')
-const authRoutes = require(path.join(__dirname, '../routes/AuthRoutes'))
-const eventRoutes = require(path.join(__dirname, '../routes/EventRoutes'))
+const authRoutes = require(path.join(__dirname, './routes/AuthRoutes'))
+const eventRoutes = require(path.join(__dirname, './routes/EventRoutes'))
 const newsletterRoutes = require(path.join(
     __dirname,
-    '../routes/NewsletterRoutes'
+    './routes/NewsletterRoutes'
 ))
-const emailRoutes = require(path.join(__dirname, '../routes/EmailRoutes'))
+const emailRoutes = require(path.join(__dirname, './routes/EmailRoutes'))
 
 const app = express()
 
