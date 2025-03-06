@@ -1,4 +1,6 @@
 const express = require('express')
+const serverless = require('serverless-http') // <-- Instálalo con `npm install serverless-http`
+
 const authRoutes = require('./routes/authRoutes')
 const eventRoutes = require('./routes/eventRoutes')
 const newsletterRoutes = require('./routes/newsletterRoutes')
@@ -37,4 +39,4 @@ app.use((error, req, res, next) => {
 //     })
 // }
 
-module.exports = app
+module.exports.handler = serverless(app)
