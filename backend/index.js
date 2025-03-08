@@ -42,7 +42,7 @@
 
 // module.exports = app
 
-funcionando en vercel
+//funcionando en vercel
 const express = require('express')
 
 // const authRoutes = require('./routes/AuthRoutes')
