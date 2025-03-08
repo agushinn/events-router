@@ -1,11 +1,22 @@
+// const express = require('express')
+// const newsletterController = require('../controllers/NewsletterController')
+
+// const router = express.Router()
+
+// router.get('/', newsletterController.getAllEmails)
+// router.post('/', newsletterController.subscribeEmail)
+// router.post('/send', newsletterController.sendEmails)
+// router.delete('/unsubscribe', newsletterController.unsubscribeEmails)
+
+// module.exports = router
 const express = require('express')
-const newsletterController = require('../controllers/NewsletterController')
+const NewsletterController = require('../controllers/NewsletterController')
 
 const router = express.Router()
 
-router.get('/', newsletterController.getAllEmails)
-router.post('/', newsletterController.subscribeEmail)
-router.post('/send', newsletterController.sendEmails)
-router.delete('/unsubscribe', newsletterController.unsubscribeEmails)
+router.get('/', NewsletterController.getAllEmails)
+router.post('/', NewsletterController.subscribeEmail)
+router.post('/send', NewsletterController.sendEmails)
+router.delete('/unsubscribe', NewsletterController.unsubscribeEmails)
 
 module.exports = router

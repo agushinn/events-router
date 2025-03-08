@@ -54,7 +54,7 @@ function EventItem({ event }) {
                     Delete {event.title}?
                 </Modal>
             )}
-
+            {console.log(event)}
             <article className={styles.event}>
                 <img src={event.image} alt={event.title} />
                 <h2>{event.title}</h2>

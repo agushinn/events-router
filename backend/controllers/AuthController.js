@@ -1,54 +1,119 @@
-const userService = require('../services/UserService')
+// const UserService = require('../services/UserService')
+// const ApiController = require('./ApiController')
+// const { USER_TYPE } = require('../utils/userType')
+
+// async function signup(req, res) {
+//     try {
+//         const createdUser = await UserService.registerUser(
+//             req.body,
+//             USER_TYPE.REGULAR
+//         )
+//         ApiController.sendSuccessResponse(
+//             res,
+//             createdUser,
+//             'User created successfully',
+//             201
+//         )
+//     } catch (error) {
+//         ApiController.sendErrorResponse(res, error)
+//     }
+// }
+
+// async function signupAdmin(req, res) {
+//     try {
+//         const createdUser = await UserService.registerUser(
+//             req.body,
+//             USER_TYPE.ADMIN
+//         )
+//         ApiController.sendSuccessResponse(
+//             res,
+//             createdUser,
+//             'User created successfully',
+//             201
+//         )
+//     } catch (error) {
+//         ApiController.sendErrorResponse(res, error)
+//     }
+// }
+
+// async function login(req, res) {
+//     try {
+//         const loginUser = await UserService.loginUser(
+//             req.body.email,
+//             req.body.password
+//         )
+
+//         ApiController.sendSuccessResponse(
+//             res,
+//             loginUser,
+//             'User logged in successfully',
+//             200
+//         )
+//     } catch (error) {
+//         ApiController.sendErrorResponse(res, error)
+//     }
+// }
+
+// module.exports = {
+//     signup,
+//     signupAdmin,
+//     login,
+// }
+const UserService = require('../services/UserService')
 const ApiController = require('./ApiController')
+const { USER_TYPE } = require('../utils/userType')
 
-async function signup(req, res) {
-    try {
-        const createdUser = await userService.registerUser(req.body)
-        ApiController.sendSuccessResponse(
-            res,
-            createdUser,
-            'User created successfully',
-            201
-        )
-    } catch (error) {
-        ApiController.sendErrorResponse(res, error)
+class AuthController {
+    static async signup(req, res) {
+        try {
+            const createdUser = await UserService.registerUser(
+                req.body,
+                USER_TYPE.REGULAR
+            )
+            ApiController.sendSuccessResponse(
+                res,
+                createdUser,
+                'User created successfully',
+                201
+            )
+        } catch (error) {
+            ApiController.sendErrorResponse(res, error)
+        }
+    }
+
+    static async signupAdmin(req, res) {
+        try {
+            const createdUser = await UserService.registerUser(
+                req.body,
+                USER_TYPE.ADMIN
+            )
+            ApiController.sendSuccessResponse(
+                res,
+                createdUser,
+                'User created successfully',
+                201
+            )
+        } catch (error) {
+            ApiController.sendErrorResponse(res, error)
+        }
+    }
+
+    static async login(req, res) {
+        try {
+            const loginUser = await UserService.loginUser(
+                req.body.email,
+                req.body.password
+            )
+            ApiController.sendSuccessResponse(
+                res,
+                loginUser,
+                'User logged in successfully',
+                200
+            )
+        } catch (error) {
+            ApiController.sendErrorResponse(res, error)
+        }
     }
 }
 
-async function signupAdmin(req, res) {
-    try {
-        const createdUser = await userService.registerUser(req.body, 'ADMIN')
-        ApiController.sendSuccessResponse(
-            res,
-            createdUser,
-            'User created successfully',
-            201
-        )
-    } catch (error) {
-        ApiController.sendErrorResponse(res, error)
-    }
-}
-
-async function login(req, res) {
-    try {
-        console.log('login')
-        const loginUser = await userService.loginUser(
-            req.body.email,
-            req.body.password
-        )
-        ApiController.sendSuccessResponse(
-            res,
-            loginUser,
-            'User logged in successfully',
-            200
-        )
-    } catch (error) {
-        ApiController.sendErrorResponse(res, error)
-    }
-}
-
-module.exports = {
-    signup,
-    signupAdmin,
-    login,
-}
+module.exports = AuthController

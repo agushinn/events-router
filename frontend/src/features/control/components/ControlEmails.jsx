@@ -20,7 +20,7 @@ const ControlEmails = () => {
                     <ul>
                         {newsletters.map((newsletter) => {
                             return (
-                                <li key={newsletter.id}>
+                                <li key={newsletter._id}>
                                     {newsletter.email}
                                     <input
                                         name="newsletterEmail"

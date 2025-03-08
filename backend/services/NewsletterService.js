@@ -1,59 +1,144 @@
-const newsletterRepository = require('../repositories/NewsletterRepository')
+// // const NewsletterRepository = require('../repositories/NewsletterRepository')
+// // const { isValidEmail } = require('../utils/validation')
+// // const { NotFoundError, InvalidParamError } = require('../factory/ErrorsFactory')
+// // const EventService = require('../services/EventService')
+// // // const EmailService = require('./EmailService')
+// // const { buildNewsletterHtml } = require('../templates/newsletterTemplate')
+
+// // async function getAllEmails() {
+// //     try {
+// //         const mails = await NewsletterRepository.getAll()
+// //         return mails
+// //     } catch (error) {
+// //         throw new NotFoundError('Error fetching emails')
+// //     }
+// // }
+
+// // async function subscribeEmail(email) {
+// //     if (!isValidEmail(email)) {
+// //         throw new Error('Email is invalid')
+// //     }
+
+// //     return await NewsletterRepository.add(email)
+// // }
+
+// // async function unsubscribeEmails(emails) {
+// //     if (emails.length <= 0) {
+// //         throw new InvalidParamError('No emails to unsubscribe selected')
+// //     }
+
+// //     emails.forEach((email) => {
+// //         if (!isValidEmail(email)) {
+// //             throw new InvalidParamError(`Email ${email} is invalid`)
+// //         }
+// //     })
+// //     return await NewsletterRepository.deleteEmails(emails)
+// // }
+
+// // async function sendEmails(emails) {
+// //     if (!emails.length) {
+// //         throw new InvalidParamError('No emails to send selected')
+// //     }
+// //     emails.forEach((email) => {
+// //         if (!isValidEmail(email)) {
+// //             throw new InvalidParamError(`Email ${email} is invalid`)
+// //         }
+// //     })
+// //     const events = await eventService.getAllEvents()
+// //     if (!events.length) {
+// //         throw new NotFoundError('No events found')
+// //     }
+// //     const htmlContent = buildNewsletterHtml(events)
+// //     return await EmailService.sendEmail({
+// //         to: emails,
+// //         subject: 'Upcoming Events!',
+// //         html: htmlContent,
+// //     })
+// // }
+
+// // module.exports = {
+// //     getAllEmails,
+// //     subscribeEmail,
+// //     sendEmails,
+// //     unsubscribeEmails,
+// // }
+
+const NewsletterRepository = require('../repositories/NewsletterRepository')
 const { isValidEmail } = require('../utils/validation')
 const { NotFoundError, InvalidParamError } = require('../factory/ErrorsFactory')
-const eventService = require('../services/EventService')
+const EventService = require('./EventService')
 const EmailService = require('./EmailService')
 const { buildNewsletterHtml } = require('../templates/newsletterTemplate')
 
-async function getAllEmails() {
-    try {
-        const mails = await newsletterRepository.getAll()
-        return mails
-    } catch (error) {
-        throw new NotFoundError('Error fetching emails')
-    }
-}
-
-async function subscribeEmail(email) {
-    if (!isValidEmail(email)) {
-        throw new Error('Email is invalid')
-    }
-
-    return await newsletterRepository.add(email)
-}
-
-async function unsubscribeEmails(emails) {
-    if (emails.length <= 0) {
-        throw new InvalidParamError('No emails to unsubscribe selected')
-    }
-
-    emails.forEach((email) => {
-        if (!isValidEmail(email)) {
-            throw new InvalidParamError(`Email ${email} is invalid`)
+class NewsletterService {
+    static async getAllEmails() {
+        try {
+            return await NewsletterRepository.getAll()
+        } catch (error) {
+            throw new NotFoundError('Error fetching emails')
         }
-    })
-    return await newsletterRepository.deleteEmails(emails)
-}
-
-async function sendEmails(emails) {
-    if (!emails.length) {
-        throw new InvalidParamError('No emails to send selected')
     }
-    emails.forEach((email) => {
+
+    static async subscribeEmail(email) {
         if (!isValidEmail(email)) {
-            throw new InvalidParamError(`Email ${email} is invalid`)
+            throw new InvalidParamError('Email is invalid')
         }
-    })
-    const events = await eventService.getAllEvents()
-    if (!events.length) {
-        throw new NotFoundError('No events found')
+
+        try {
+            return await NewsletterRepository.add(email)
+        } catch (error) {
+            if (error instanceof InvalidParamError) {
+                throw error
+            }
+            throw new Error('Failed to subscribe email')
+        }
     }
-    const htmlContent = buildNewsletterHtml(events)
-    return await EmailService.sendEmail({
-        to: emails,
-        subject: 'Upcoming Events!',
-        html: htmlContent,
-    })
+
+    static async unsubscribeEmails(emails) {
+        if (!emails || emails.length === 0) {
+            throw new InvalidParamError('No emails to unsubscribe selected')
+        }
+
+        emails.forEach((email) => {
+            if (!isValidEmail(email)) {
+                throw new InvalidParamError(`Email ${email} is invalid`)
+            }
+        })
+
+        try {
+            return await NewsletterRepository.deleteEmails(emails)
+        } catch (error) {
+            throw new Error('Failed to unsubscribe emails')
+        }
+    }
+
+    static async sendEmails(emails) {
+        if (!emails || emails.length === 0) {
+            throw new InvalidParamError('No emails to send selected')
+        }
+
+        emails.forEach((email) => {
+            if (!isValidEmail(email)) {
+                throw new InvalidParamError(`Email ${email} is invalid`)
+            }
+        })
+
+        try {
+            const events = await EventService.getAllEvents()
+            if (!events.length) {
+                throw new NotFoundError('No events found')
+            }
+
+            const htmlContent = buildNewsletterHtml(events)
+            return await EmailService.sendEmail({
+                to: emails,
+                subject: 'Upcoming Events!',
+                html: htmlContent,
+            })
+        } catch (error) {
+            throw new Error('Failed to send emails: ' + error.message)
+        }
+    }
 }
 
-module.exports = { getAllEmails, subscribeEmail, sendEmails, unsubscribeEmails }
+module.exports = NewsletterService

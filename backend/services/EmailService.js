@@ -1,4 +1,3 @@
-require('dotenv').config()
 const { Resend } = require('resend')
 const { InvalidParamError } = require('../factory/ErrorsFactory')
 
