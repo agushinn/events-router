@@ -1,6 +1,6 @@
-const { v4: uuidv4 } = require('uuid')
-const { NotFoundError } = require('../factory/ErrorsFactory')
-const { readData, writeData } = require('../utils/fileUtils')
+// const { v4: uuidv4 } = require('uuid')
+// const { readData, writeData } = require('../utils/fileUtils')
+// const { NotFoundError } = require('../factory/ErrorsFactory')
 
 // async function getAll() {
 //     const storedData = await readData()
@@ -95,7 +95,7 @@ const { readData, writeData } = require('../utils/fileUtils')
 
 const { ObjectId } = require('mongodb')
 const { connectToDatabase } = require('../database/mongoConnection')
-
+const { NotFoundError } = require('../factory/ErrorsFactory')
 class EventRepository {
     static async getCollection() {
         const db = await connectToDatabase()
