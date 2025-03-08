@@ -2,7 +2,7 @@ const express = require('express')
 require('dotenv').config()
 
 // const authRoutes = require('../backend/routes/AuthRoutes')
-// const eventRoutes = require('../backend/routes/EventRoutes')
+const eventRoutes = require('../backend/routes/EventRoutes')
 // const newsletterRoutes = require('../backend/routes/NewsletterRoutes')
 // const emailRoutes = require('../backend/routes/EmailRoutes')
 
@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 })
 
 // app.use('/auth', authRoutes)
-// app.use('/events', eventRoutes)
+app.use('/events', eventRoutes)
 // app.use('/newsletters', newsletterRoutes)
 // app.use('/emails', emailRoutes)
 app.get('/test', (req, res) => {
