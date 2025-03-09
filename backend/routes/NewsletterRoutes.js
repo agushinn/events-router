@@ -11,10 +11,11 @@
 // module.exports = router
 const express = require('express')
 const NewsletterController = require('../controllers/NewsletterController')
+const { checkAuthMiddleware } = require('../utils/auth')
 
 const router = express.Router()
 
-router.get('/', NewsletterController.getAllEmails)
+router.get('/', checkAuthMiddleware, NewsletterController.getAllEmails)
 router.post('/', NewsletterController.subscribeEmail)
 router.post('/send', NewsletterController.sendEmails)
 router.delete('/unsubscribe', NewsletterController.unsubscribeEmails)
