@@ -16,7 +16,7 @@ const { checkAuthMiddleware } = require('../utils/auth')
 const router = express.Router()
 
 router.get('/', checkAuthMiddleware, NewsletterController.getAllEmails)
-router.post('/', checkAuthMiddleware, NewsletterController.subscribeEmail)
+router.post('/', NewsletterController.subscribeEmail)
 router.post('/send', checkAuthMiddleware, NewsletterController.sendEmails)
 router.delete(
     '/unsubscribe',
