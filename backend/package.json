@@ -13,12 +13,10 @@
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "body-parser": "^1.20.3",
-    "bson": "^6.10.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^4.2.8",
-    "mongoose": "^8.12.1",
     "resend": "^4.1.2"
   },
   "devDependencies": {
