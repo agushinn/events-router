@@ -57,7 +57,7 @@ app.use(express.json())
 app.use((req, res, next) => {
     res.setHeader(
         'Access-Control-Allow-Origin',
-        'https://events-router-client.vercel.app'
+        'https://events-router-frontend-agushin.vercel.app'
     )
     // res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader(
