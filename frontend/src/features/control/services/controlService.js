@@ -4,6 +4,7 @@ import { getAuthToken } from '@services/auth'
 import { API_URL } from '@constants/configs'
 
 const controlMailsAction = async ({ request }) => {
+    const token = getAuthToken()
     const method = request.method || 'POST'
     let route = method === 'POST' ? 'send' : 'unsubscribe'
 
@@ -17,7 +18,9 @@ const controlMailsAction = async ({ request }) => {
         method: method,
         headers: {
             'Content-type': 'application/json',
+            Authorization: `Bearer ${token}`,
         },
+        credentials: 'include',
         body: JSON.stringify(checkedEmails),
     })
 
@@ -31,6 +34,7 @@ const controlMailsAction = async ({ request }) => {
 }
 
 const controlNewAdminAction = async ({ request }) => {
+    const token = getAuthToken()
     const method = request.method || 'POST'
 
     // get form data
@@ -45,6 +49,7 @@ const controlNewAdminAction = async ({ request }) => {
         method: method,
         headers: {
             'Content-type': 'application/json',
+            Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(newAdmin),
         credentials: 'include',
@@ -87,7 +92,9 @@ const loader = async () => {
         method: 'GET',
         headers: {
             'Content-Type': 'Application/json',
+            Authorization: `Bearer ${token}`,
         },
+        credentials: 'include',
     })
     const data = await response.json()
 
