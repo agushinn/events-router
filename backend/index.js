@@ -45,10 +45,10 @@
 //funcionando en vercel
 const express = require('express')
 
-// const authRoutes = require('./routes/AuthRoutes')
+const authRoutes = require('./routes/AuthRoutes')
 const eventRoutes = require('./routes/EventRoutes.js')
-// const newsletterRoutes = require('./routes/NewsletterRoutes')
-// const emailRoutes = require('./routes/EmailRoutes')
+const newsletterRoutes = require('./routes/NewsletterRoutes')
+const emailRoutes = require('./routes/EmailRoutes')
 
 const app = express()
 
@@ -66,10 +66,10 @@ app.use((req, res, next) => {
     next()
 })
 
-// app.use('/auth', authRoutes)
+app.use('/auth', authRoutes)
 app.use('/events', eventRoutes)
-// app.use('/newsletters', newsletterRoutes)
-// app.use('/emails', emailRoutes)
+app.use('/newsletters', newsletterRoutes)
+app.use('/emails', emailRoutes)
 app.get('/test', (req, res) => {
     res.json({ message: 'Funciona!' })
 })
