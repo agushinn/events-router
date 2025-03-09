@@ -46,7 +46,7 @@
 const express = require('express')
 
 // const authRoutes = require('./routes/AuthRoutes')
-const eventRoutes = require('../backend/routes/EventRoutes.js')
+const eventRoutes = require('./routes/EventRoutes.js')
 // const newsletterRoutes = require('./routes/NewsletterRoutes')
 // const emailRoutes = require('./routes/EmailRoutes')
 
