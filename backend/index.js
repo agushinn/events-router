@@ -43,17 +43,17 @@
 // module.exports = app
 
 //funcionando en vercel
+// https://events-router-backend.vercel.app
 const express = require('express')
 
-const authRoutes = require('./routes/AuthRoutes')
+const authRoutes = require('./routes/AuthRoutes.js')
 const eventRoutes = require('./routes/EventRoutes.js')
-const newsletterRoutes = require('./routes/NewsletterRoutes')
-const emailRoutes = require('./routes/EmailRoutes')
+const newsletterRoutes = require('./routes/NewsletterRoutes.js')
+const emailRoutes = require('./routes/EmailRoutes.js')
 
 const app = express()
 
 app.use(express.json())
-
 app.use((req, res, next) => {
     // res.setHeader(
     //     'Access-Control-Allow-Origin',
