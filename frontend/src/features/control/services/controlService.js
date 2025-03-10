@@ -94,7 +94,7 @@ const loader = async () => {
             'Content-Type': 'Application/json',
             Authorization: `Bearer ${token}`,
         },
-        credentials: 'include',
+        // credentials: 'include',
     })
     const data = await response.json()
 
