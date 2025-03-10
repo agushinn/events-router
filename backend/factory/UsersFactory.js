@@ -1,5 +1,4 @@
 const { hash } = require('bcryptjs')
-// const { v4: uuidv4 } = require('uuid')
 
 const USER_ROLES = {
     CREATE: 'CREATE',

@@ -26,11 +26,9 @@ app.use('/auth', authRoutes)
 app.use('/events', eventRoutes)
 app.use('/newsletters', newsletterRoutes)
 app.use('/emails', emailRoutes)
-app.get('/test', (req, res) => {
-    res.json({ message: 'Funciona!' })
-})
 
 app.use((error, req, res, next) => {
+    console.error(error)
     const status = error.status || 500
     const message = error.message || 'Something went wrong.'
     res.status(status).json({ message })
