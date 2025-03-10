@@ -102,7 +102,7 @@ const eventDeleteAction = async ({ request, params }) => {
 const myEventsLoader = async ({ params }) => {
     const { userId } = params
     // /users-events
-    const response = await fetch(`${API_URL}events/users-events/${userId}`)
+    const response = await fetch(`${API_URL}events/users/${userId}`)
     const data = await response.json()
 
     if (!data.success) {

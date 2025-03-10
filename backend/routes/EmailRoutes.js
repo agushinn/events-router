@@ -3,7 +3,7 @@ const EmailController = require('../controllers/EmailController')
 const {
     checkAuthMiddleware,
     authorizeAdminMiddleware,
-} = require('../utils/auth')
+} = require('../middlewares/auth')
 
 const router = express.Router()
 

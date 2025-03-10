@@ -45,7 +45,7 @@ const controlNewAdminAction = async ({ request }) => {
     }
 
     // create new admin
-    const response = await fetch(`${API_URL}auth/signup-admin`, {
+    const response = await fetch(`${API_URL}auth/admin`, {
         method: method,
         headers: {
             'Content-type': 'application/json',

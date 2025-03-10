@@ -1,7 +1,7 @@
 const express = require('express')
 
 const NewsletterController = require('../controllers/NewsletterController')
-const { checkAuthMiddleware } = require('../utils/auth')
+const { checkAuthMiddleware } = require('../middlewares/auth')
 
 const router = express.Router()
 
