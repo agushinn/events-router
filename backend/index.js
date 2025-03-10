@@ -72,20 +72,6 @@ app.use('/api/v1/events', eventRoutes)
 app.use('/api/v1/newsletters', newsletterRoutes)
 app.use('/api/v1/emails', emailRoutes)
 
-// app.use((req, res, next) => {
-//     res.setHeader(
-//         'Access-Control-Allow-Origin',
-//         'https://events-router-client.vercel.app'
-//     )
-//     res.setHeader(
-//         'Access-Control-Allow-Methods',
-//         'GET,POST,PUT,PATCH,DELETE,OPTIONS'
-//     )
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-//     res.setHeader('Access-Control-Allow-Credentials', 'true')
-//     next()
-// })
-
 app.use((error, req, res, next) => {
     console.error(error)
     const status = error.status || 500
