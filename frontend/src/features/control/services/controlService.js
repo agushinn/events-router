@@ -88,6 +88,7 @@ const setCredentialsAction = async ({ request }) => {
 }
 
 const loader = async () => {
+    console.log('loader executed')
     const response = await fetch(`${API_URL}newsletters`, {
         method: 'GET',
         headers: {
@@ -95,7 +96,9 @@ const loader = async () => {
             Authorization: `Bearer ${token}`,
         },
     })
+    console.log(response)
     const data = await response.json()
+    console.log(data)
 
     if (!data.success) {
         throw new Response(
