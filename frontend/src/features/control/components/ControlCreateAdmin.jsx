@@ -1,4 +1,3 @@
-import { PageContent } from '@layouts/page/PageContent'
 import { Form, useNavigation } from 'react-router-dom'
 
 import styles from '@control/styles/ControlCreateAdmin.module.scss'

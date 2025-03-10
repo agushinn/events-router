@@ -1,6 +1,9 @@
 import { useState } from 'react'
-import { Link, useRouteLoaderData, useSubmit } from 'react-router-dom'
+
 import styles from '@events/styles/EventItem.module.scss'
+
+import { Link, useRouteLoaderData, useSubmit } from 'react-router-dom'
+
 import { getUserRoles } from '@services/auth'
 
 import { Modal } from '@components/Modal/Modal'

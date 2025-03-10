@@ -1,4 +1,5 @@
 import styles from '@control/styles/ControlNavigation.module.scss'
+
 import { NavLink } from 'react-router-dom'
 
 function ControlNavigation() {

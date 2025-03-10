@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 
-import { PageContent } from '../../../shared/layouts/page/PageContent'
+import { PageContent } from '@layouts/page/PageContent'
 import { ControlNavigation } from '@control/components/ControlNavigation'
 import { CredentialsForm } from '@control/components/CredentialsForm'
 

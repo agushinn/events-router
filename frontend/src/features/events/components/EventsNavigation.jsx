@@ -1,4 +1,5 @@
 import styles from '@events/styles/EventsNavigation.module.scss'
+
 import { Outlet, NavLink, useRouteLoaderData } from 'react-router-dom'
 
 function EventsNavigation() {

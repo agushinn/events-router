@@ -1,4 +1,4 @@
-import styles from './PageContent.module.scss'
+import styles from '@layouts/page/PageContent.module.scss'
 
 function PageContent({ title, children }) {
     return (

@@ -1,5 +1,6 @@
-import { PageContent } from '../../../shared/layouts/page/PageContent'
+import { PageContent } from '@layouts/page/PageContent'
 import { EventForm } from '@events/components/EventForm'
+
 const NewEventPage = () => {
     return (
         <PageContent>

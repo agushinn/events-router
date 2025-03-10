@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify'
+
 import { getAuthToken } from '@services/auth'
 
 import { API_URL } from '@constants/configs'

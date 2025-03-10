@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { useRouteError } from 'react-router-dom'
+
 import { PageContent } from '@layouts/page/PageContent'
 import { AuthenticationPage } from '@auth/pages/AuthenticationPage'
 

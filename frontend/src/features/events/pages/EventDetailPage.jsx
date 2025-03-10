@@ -1,6 +1,6 @@
 import { useRouteLoaderData } from 'react-router-dom'
 
-import { PageContent } from '../../../shared/layouts/page/PageContent'
+import { PageContent } from '@layouts/page/PageContent'
 import { EventItem } from '@events/components/EventItem'
 
 const EventDetailPage = () => {

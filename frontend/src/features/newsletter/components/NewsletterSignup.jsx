@@ -1,6 +1,8 @@
-import { useFetcher } from 'react-router-dom'
-import styles from '@newsletter/styles/NewsletterSignup.module.scss'
 import { useEffect } from 'react'
+
+import { useFetcher } from 'react-router-dom'
+
+import styles from '@newsletter/styles/NewsletterSignup.module.scss'
 
 import { toast } from 'react-toastify'
 

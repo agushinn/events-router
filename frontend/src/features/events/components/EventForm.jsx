@@ -1,10 +1,11 @@
+import styles from '@events/styles/EventForm.module.scss'
+
 import {
     useNavigate,
     useNavigation,
     Form,
     useActionData,
 } from 'react-router-dom'
-import styles from '@events/styles/EventForm.module.scss'
 
 function EventForm({ method, event }) {
     const navigate = useNavigate()
