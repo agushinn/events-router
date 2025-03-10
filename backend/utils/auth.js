@@ -1,15 +1,15 @@
 const { sign, verify } = require('jsonwebtoken')
 const { compare } = require('bcryptjs')
-const { NotAuthError } = require('../factory/ErrorsFactory')
 
-const KEY = 'supersecret'
+const { NotAuthError } = require('../factory/ErrorsFactory')
+import { JWT_SECRET_KEY } from '../configs/configs'
 
 function createJSONToken(email, userType) {
-    return sign({ email, userType }, KEY, { expiresIn: '1h' })
+    return sign({ email, userType }, JWT_SECRET_KEY, { expiresIn: '1h' })
 }
 
 function validateJSONToken(token) {
-    return verify(token, KEY)
+    return verify(token, JWT_SECRET_KEY)
 }
 
 function isValidPassword(password, storedPassword) {

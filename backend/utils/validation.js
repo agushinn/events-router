@@ -1,18 +1,20 @@
 function isValidText(value, minLength = 1) {
-    return value && value.trim().length >= minLength
+    return typeof value === 'string' && value.trim().length >= minLength
 }
 
 function isValidDate(value) {
     const date = new Date(value)
-    return value && date !== 'Invalid Date'
+    return !isNaN(date.getTime())
 }
 
 function isValidImageUrl(value) {
-    return value && value.startsWith('http')
+    const urlPattern = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))$/i
+    return urlPattern.test(value)
 }
 
 function isValidEmail(value) {
-    return value && value.includes('@')
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailPattern.test(value)
 }
 
 module.exports = {

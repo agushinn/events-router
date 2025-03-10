@@ -1,9 +1,9 @@
 const { Resend } = require('resend')
 const { InvalidParamError } = require('../factory/ErrorsFactory')
-
+const { RESEND_API_KEY } = require('../configs/configs')
 class EmailService {
     constructor() {
-        const apiKey = process.env.RESEND_API_KEY || null
+        const apiKey = RESEND_API_KEY || null
         if (!apiKey) {
             throw new Error('API Key is required')
         }
