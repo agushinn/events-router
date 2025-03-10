@@ -92,7 +92,7 @@ const loader = async () => {
         method: 'GET',
         headers: {
             'Content-Type': 'Application/json',
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
         },
         // credentials: 'include',
     })
