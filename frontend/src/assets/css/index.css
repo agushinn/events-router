@@ -1,0 +1,63 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-y: scroll;
+}
+
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #00000000;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  --color-gray-100: #f4f3f1;
+  --color-gray-200: #dddbd8;
+  --color-gray-300: #ccc9c6;
+  --color-gray-400: #aeaba7;
+  --color-gray-500: #8a8784;
+  --color-gray-600: #656360;
+  --color-gray-700: #4b4a47;
+  --color-gray-800: #31302e;
+  --color-gray-900: #1f1d1b;
+
+  --color-primary-50: #957de64f;
+  --color-primary-100: #f2e4f9;
+  --color-primary-200: #d8c5f5;
+  --color-primary-300: #b3a1eb;
+  --color-primary-400: #957de6;
+  --color-primary-500: #7d5ee2;
+  --color-primary-600: #6948d8;
+  --color-primary-700: #5833d2;
+  --color-primary-800: #6f1ab5;
+  --color-primary-900: #6e0dbd;
+
+  --color-blue-700: #00aaff;
+  --color-pink-700: #ea00ff;
+  --color-green-700: #08ffa9;
+  --color-red-700: #ff2323;
+  --color-redish-700: #ff5454;
+  --color-black: #000;
+  --color-black-05: rgba(0, 0, 0, 0.5);
+}
+
+body {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
