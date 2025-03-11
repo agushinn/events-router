@@ -1,7 +1,8 @@
 const { sign, verify } = require('jsonwebtoken')
 const { compare } = require('bcryptjs')
+require('dotenv').config()
 
-import { JWT_SECRET_KEY } from '../configs/configs'
+const { JWT_SECRET_KEY } = '../configs/configs'
 
 function createJSONToken(email, userType) {
     return sign({ email, userType }, JWT_SECRET_KEY, { expiresIn: '1h' })
