@@ -27,7 +27,8 @@ const CredentialsForm = () => {
                 }`}
             >
                 In order to test the mailing service, can put your own
-                resend&apos;s credentials here and test by your own.
+                resend&apos;s credentials here and test by your own. Otherwise,
+                testing the service won't be possible.
             </p>
             <fetcher.Form
                 method={'POST'}
