@@ -2,6 +2,11 @@
 
 This project consists of two integrated parts working together to provide a complete solution. Below is an overview of the architecture and key features of each component, along with details on how they integrate.
 
+
+### https://events-router-frontend.vercel.app/
+
+### https://events-router-backend.vercel.app/api/v1/events
+
 ---
 
 ## 1. Node.js API Backend
