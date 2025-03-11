@@ -1,6 +1,5 @@
 const { sign, verify } = require('jsonwebtoken')
 const { compare } = require('bcryptjs')
-require('dotenv').config()
 
 const { JWT_SECRET_KEY } = '../configs/configs'
 
