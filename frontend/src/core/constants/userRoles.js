@@ -1,0 +1,6 @@
+const USER_ROLES = {
+    ADMIN: ['CREATE', 'READ', 'UPDATE', 'DELETE', 'CONTROL_PANEL'],
+    REGULAR: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+}
+
+export { USER_ROLES }
