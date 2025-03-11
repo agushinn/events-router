@@ -1,0 +1,18 @@
+.routerContainer {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    font-family: monospace;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+
+    @media (max-width: 768px) {
+        // background-color: red;
+        overflow-x: scroll;
+    }
+}
+
+.routerStructure {
+    margin-left: 1rem;
+}
