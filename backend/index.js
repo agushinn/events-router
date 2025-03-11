@@ -36,7 +36,7 @@ const globalLimiter = rateLimit({
 app.use(globalLimiter)
 
 // 3. CORS
-const allowedOrigins = ['https://events-router-client.vercel.app']
+const allowedOrigins = ['https://events-router-frontend.vercel.app']
 
 app.use(
     cors({
