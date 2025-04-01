@@ -1,7 +1,7 @@
 const { sign, verify } = require('jsonwebtoken')
 const { compare } = require('bcryptjs')
 
-import { JWT_SECRET_KEY } from '../configs/configs'
+const { JWT_SECRET_KEY } = require('../configs/configs')
 
 function createJSONToken(email, userType) {
     return sign({ email, userType }, JWT_SECRET_KEY, { expiresIn: '1h' })
