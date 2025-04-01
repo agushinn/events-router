@@ -100,10 +100,16 @@ const eventDeleteAction = async ({ request, params }) => {
     return redirect('/events')
 }
 
-const myEventsLoader = async ({ params }) => {
+const myEventsLoader = async ({ request, params }) => {
+    const url = new URL(request.url)
+    const page = url.searchParams.get('page') || 1
+    const limit = url.searchParams.get('limit') || 5
     const { userId } = params
-    // /users-events
-    const response = await fetch(`${API_URL}events/users/${userId}`)
+
+    const response = await fetch(
+        `${API_URL}events/users/${userId}?page=${page}&limit=${limit}`
+    )
+
     const data = await response.json()
 
     if (!data.success) {
@@ -115,11 +121,15 @@ const myEventsLoader = async ({ params }) => {
         )
     }
 
-    return { events: data.data }
+    return { events: data.data.events, meta: data.data.meta }
 }
 
-const loadEvents = async () => {
-    const response = await fetch(`${API_URL}events`)
+const loadEvents = async ({ request }) => {
+    const url = new URL(request.url)
+    const page = url.searchParams.get('page') || 1
+    const limit = url.searchParams.get('limit') || 5
+
+    const response = await fetch(`${API_URL}events?page=${page}&limit=${limit}`)
     const data = await response.json()
 
     if (!data.success) {
@@ -131,7 +141,7 @@ const loadEvents = async () => {
         )
     }
 
-    return { events: data.data }
+    return { events: data.data.events, meta: data.data.meta }
 }
 
 // const loadPosts = async () => {
@@ -143,9 +153,9 @@ const loadEvents = async () => {
 //     // ...
 // }
 
-const eventsLoader = ({ params }) => {
+const eventsLoader = ({ request, params }) => {
     // const { userId } = params.user
-    return loadEvents()
+    return loadEvents({ request, params })
     //  defer({
     // Promises to defer
     // events: loadEvents(),
