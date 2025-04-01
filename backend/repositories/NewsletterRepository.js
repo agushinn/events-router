@@ -1,46 +1,48 @@
-const { connectToDatabase } = require('../database/mongoConnection')
+const Newsletter = require('../models/Newsletter')
 const { NotFoundError, InvalidParamError } = require('../factory/ErrorsFactory')
 
 class NewsletterRepository {
-    static async getCollection() {
-        const db = await connectToDatabase()
-        return db.collection('newsletters')
-    }
-
     static async getAll() {
         try {
-            const collection = await this.getCollection()
-            return await collection.find().toArray()
+            return await Newsletter.find()
         } catch (error) {
             throw new NotFoundError('Could not fetch emails from the database')
         }
     }
 
     static async add(email) {
-        const collection = await this.getCollection()
+        try {
+            const existingEmail = await Newsletter.findOne({ email })
+            if (existingEmail) {
+                throw new InvalidParamError('Email already subscribed')
+            }
 
-        const existingEmail = await collection.findOne({ email })
-        if (existingEmail) {
-            throw new InvalidParamError('Email already subscribed')
+            const newEmail = new Newsletter({ email })
+            await newEmail.save()
+
+            return newEmail
+        } catch (error) {
+            if (error instanceof InvalidParamError) {
+                throw error
+            }
+            throw new Error('Failed to subscribe email')
         }
-
-        const result = await collection.insertOne({ email })
-
-        return { _id: result.insertedId, email }
     }
 
     static async deleteEmails(emailsToDelete) {
-        const collection = await this.getCollection()
+        try {
+            const result = await Newsletter.deleteMany({
+                email: { $in: emailsToDelete },
+            })
 
-        const result = await collection.deleteMany({
-            email: { $in: emailsToDelete },
-        })
+            if (result.deletedCount === 0) {
+                throw new NotFoundError('No emails found to delete')
+            }
 
-        if (result.deletedCount === 0) {
-            throw new NotFoundError('No emails found to delete')
+            return { deletedCount: result.deletedCount }
+        } catch (error) {
+            throw new Error('Failed to delete emails')
         }
-
-        return { deletedCount: result.deletedCount }
     }
 }
 

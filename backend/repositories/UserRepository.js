@@ -1,32 +1,22 @@
-const { connectToDatabase } = require('../database/mongoConnection')
+const { User } = require('../models/user')
+const { USER_TYPES } = require('../utils/userType')
 const UserFactory = require('../factory/UsersFactory')
 
 class UserRepository {
-    static async getCollection() {
-        const db = await connectToDatabase()
-        return db.collection('users')
-    }
-
-    static async add(data, type = 'REGULAR') {
-        const collection = await this.getCollection()
+    static async add(data, type = USER_TYPES.REGULAR.name) {
         const user = await UserFactory.createUser(
             data.email,
             data.password,
             type
         )
-        await collection.insertOne(user)
 
-        return user
+        const createdUser = await User.create(user)
+        return createdUser
     }
 
     static async get(email) {
-        const collection = await this.getCollection()
-        const userDocument = await collection.findOne({ email })
-
-        if (!userDocument) {
-            return null
-        }
-        return userDocument
+        const user = await User.findOne({ email })
+        return user || null
     }
 }
 

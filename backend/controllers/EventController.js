@@ -3,15 +3,22 @@ const ApiController = require('./ApiController')
 
 class EventController {
     static async getAllEvents(req, res, next) {
+        const { page, limit } = req.query
+        const pageNumber = parseInt(page) || 1
+        const limitNumber = parseInt(limit) || 4
+
         try {
-            const events = await EventService.getAllEvents()
+            const events = await EventService.getAllEvents(
+                pageNumber,
+                limitNumber
+            )
             ApiController.sendSuccessResponse(
                 res,
                 events,
                 'Events retrieved successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 
@@ -25,7 +32,7 @@ class EventController {
                 201
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 
@@ -41,7 +48,7 @@ class EventController {
                 'Event updated successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 
@@ -54,18 +61,20 @@ class EventController {
                 'Event deleted successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(
-                res,
-                error,
-                'Failed to delete event'
-            )
+            next(error)
         }
     }
 
     static async getEventsByUserId(req, res, next) {
         try {
+            const { page, limit } = req.query
+            const pageNumber = parseInt(page) || 1
+            const limitNumber = parseInt(limit) || 4
+
             const events = await EventService.getEventsByUserId(
-                req.params.userId
+                req.params.userId,
+                pageNumber,
+                limitNumber
             )
             ApiController.sendSuccessResponse(
                 res,
@@ -73,7 +82,7 @@ class EventController {
                 'Events retrieved successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 
@@ -86,11 +95,7 @@ class EventController {
                 'Event retrieved successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(
-                res,
-                error,
-                'Failed to retrieve event'
-            )
+            next(error)
         }
     }
 }
