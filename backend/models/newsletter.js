@@ -6,10 +6,10 @@ const newsletterSchema = new mongoose.Schema(
             type: String,
             required: true,
             unique: true,
-            match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Validación de email
+            match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         },
     },
-    { timestamps: true } // Agrega createdAt y updatedAt automáticamente
+    { timestamps: true }
 )
 
 const Newsletter = mongoose.model('Newsletter', newsletterSchema)
