@@ -1,4 +1,4 @@
-const Newsletter = require('../models/Newsletter')
+const Newsletter = require('../models/newsletter')
 const { NotFoundError, InvalidParamError } = require('../factory/ErrorsFactory')
 
 class NewsletterRepository {
