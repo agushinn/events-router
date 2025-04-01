@@ -1,13 +1,14 @@
 const UserService = require('../services/UserService')
 const ApiController = require('./ApiController')
-const { USER_TYPE } = require('../utils/userType')
+
+const { USER_TYPES } = require('../utils/userType')
 
 class AuthController {
-    static async signup(req, res) {
+    static async signup(req, res, next) {
         try {
             const createdUser = await UserService.registerUser(
                 req.body,
-                USER_TYPE.REGULAR
+                USER_TYPES.REGULAR.name
             )
             ApiController.sendSuccessResponse(
                 res,
@@ -16,15 +17,15 @@ class AuthController {
                 201
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 
-    static async signupAdmin(req, res) {
+    static async signupAdmin(req, res, next) {
         try {
             const createdUser = await UserService.registerUser(
                 req.body,
-                USER_TYPE.ADMIN
+                USER_TYPES.ADMIN.name
             )
             ApiController.sendSuccessResponse(
                 res,
@@ -33,11 +34,11 @@ class AuthController {
                 201
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 
-    static async login(req, res) {
+    static async login(req, res, next) {
         try {
             const loginUser = await UserService.loginUser(
                 req.body.email,
@@ -50,7 +51,7 @@ class AuthController {
                 200
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 }

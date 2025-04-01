@@ -9,13 +9,17 @@ class ApiController {
     }
 
     static sendErrorResponse(res, error) {
-        const status = error.status || 500
-        res.status(status).json({
+        const statusCode = error.statusCode || 500
+        const message = error.message || 'Internal server error'
+        const trace = error.name || 'Error'
+        const data = error.data || []
+
+        res.status(statusCode).json({
             success: false,
-            message: error.message || 'An error occurred',
-            status: status,
-            trace: error.name || 'Error',
-            data: error.data || [],
+            message: message,
+            statusCode: statusCode,
+            trace: trace,
+            data: data,
         })
     }
 }

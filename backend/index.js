@@ -3,6 +3,9 @@ const helmet = require('helmet')
 const rateLimit = require('express-rate-limit')
 const cors = require('cors')
 
+const { NotFoundError } = require('./factory/ErrorsFactory.js')
+const { sendErrorResponse } = require('./controllers/ApiController.js')
+
 const authRoutes = require('./routes/AuthRoutes.js')
 const eventRoutes = require('./routes/EventRoutes.js')
 const newsletterRoutes = require('./routes/NewsletterRoutes.js')
@@ -72,11 +75,12 @@ app.use('/api/v1/events', eventRoutes)
 app.use('/api/v1/newsletters', newsletterRoutes)
 app.use('/api/v1/emails', emailRoutes)
 
+app.use('*', (req, res, next) => {
+    throw new NotFoundError('Page not found', 'PageNotFoundError', 404)
+})
+
 app.use((error, req, res, next) => {
-    console.error(error)
-    const status = error.status || 500
-    const message = error.message || 'Something went wrong.'
-    res.status(status).json({ message })
+    sendErrorResponse(res, error)
 })
 
 module.exports = app
