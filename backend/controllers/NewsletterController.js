@@ -11,7 +11,7 @@ class NewsletterController {
                 'Emails retrieved successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 
@@ -24,7 +24,7 @@ class NewsletterController {
                 'Email subscribed successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 
@@ -37,7 +37,7 @@ class NewsletterController {
                 'Emails sent successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 
@@ -52,7 +52,7 @@ class NewsletterController {
                 'Emails unsubscribed successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 }

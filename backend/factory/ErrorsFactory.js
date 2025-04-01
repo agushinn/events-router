@@ -1,29 +1,28 @@
-class NotFoundError extends Error {
+class AppError extends Error {
+    constructor(name, message, statusCode, data = []) {
+        super(message)
+        this.name = name
+        this.statusCode = statusCode
+        this.data = data
+    }
+}
+
+class NotFoundError extends AppError {
     constructor(message) {
-        super(message)
-        this.status = 404
-        this.name = 'NotFoundError'
+        super('NotFoundError', message, 404)
     }
 }
 
-class InvalidParamError extends Error {
+class InvalidParamError extends AppError {
     constructor(message, data = []) {
-        super(message)
-        this.status = 400
-        this.name = 'InvalidParamError'
-        this.data = data
+        super('InvalidParamError', message, 400, data)
     }
 }
 
-class NotAuthError extends Error {
+class NotAuthError extends AppError {
     constructor(message, data = []) {
-        super(message)
-        this.status = 401
-        this.name = 'NotAuthError'
-        this.data = data
+        super('NotAuthError', message, 401, data)
     }
 }
 
-exports.NotFoundError = NotFoundError
-exports.InvalidParamError = InvalidParamError
-exports.NotAuthError = NotAuthError
+module.exports = { NotFoundError, InvalidParamError, NotAuthError }

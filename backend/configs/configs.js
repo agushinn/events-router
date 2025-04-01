@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8000
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
 const RESEND_API_KEY = process.env.RESEND_API_KEY
 const DATABASE_USER = process.env.DATABASE_USER

@@ -11,7 +11,7 @@ class EventController {
                 'Events retrieved successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 
@@ -25,7 +25,7 @@ class EventController {
                 201
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 
@@ -41,7 +41,7 @@ class EventController {
                 'Event updated successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 
@@ -54,11 +54,7 @@ class EventController {
                 'Event deleted successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(
-                res,
-                error,
-                'Failed to delete event'
-            )
+            next(error)
         }
     }
 
@@ -73,7 +69,7 @@ class EventController {
                 'Events retrieved successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 
@@ -86,11 +82,7 @@ class EventController {
                 'Event retrieved successfully'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(
-                res,
-                error,
-                'Failed to retrieve event'
-            )
+            next(error)
         }
     }
 }

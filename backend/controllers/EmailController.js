@@ -2,7 +2,7 @@ const EmailService = require('../services/EmailService')
 const ApiController = require('./ApiController')
 
 class EmailController {
-    static async setCredentials(req, res) {
+    static async setCredentials(req, res, next) {
         try {
             const { credentials: apiKey } = req.body
             EmailService.setCredentials({ apiKey })
@@ -12,7 +12,7 @@ class EmailController {
                 'Credenciales actualizadas'
             )
         } catch (error) {
-            ApiController.sendErrorResponse(res, error)
+            next(error)
         }
     }
 }
