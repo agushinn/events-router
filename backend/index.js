@@ -2,6 +2,7 @@ const express = require('express')
 const helmet = require('helmet')
 const rateLimit = require('express-rate-limit')
 const cors = require('cors')
+const dbConnection = require('./database/mongooseConnection')
 
 const { NotFoundError } = require('./factory/ErrorsFactory.js')
 const { sendErrorResponse } = require('./controllers/ApiController.js')
@@ -12,6 +13,9 @@ const newsletterRoutes = require('./routes/NewsletterRoutes.js')
 const emailRoutes = require('./routes/EmailRoutes.js')
 
 const app = express()
+
+// Database Connection
+dbConnection()
 
 // 1. Basic Security with Helmet
 app.use(

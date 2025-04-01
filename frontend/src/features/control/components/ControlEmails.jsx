@@ -16,7 +16,11 @@ const ControlEmails = () => {
                 </h3>
             )}
             {newsletters && newsletters.length > 0 && (
-                <Form className={styles.form} method={action}>
+                <Form
+                    className={styles.form}
+                    method={action}
+                    action="/control/emails"
+                >
                     <ul>
                         {newsletters.map((newsletter) => {
                             return (

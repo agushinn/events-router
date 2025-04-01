@@ -7,8 +7,30 @@ const {
 } = require('../utils/validation')
 
 class EventService {
-    static async getAllEvents() {
-        return await EventRepository.getAll()
+    static async getAllEvents(pageNumber = 1, limitNumber = 4) {
+        const { events, docsQuantity } = await EventRepository.getAll(
+            pageNumber,
+            limitNumber
+        )
+        const totalEvents = docsQuantity
+        const hasNextPage = docsQuantity > pageNumber * limitNumber
+        const hasPreviousPage = pageNumber > 1
+        const nextPage = hasNextPage ? pageNumber + 1 : null
+        const previousPage = hasPreviousPage ? pageNumber - 1 : null
+        const lastPage = Math.ceil(docsQuantity / limitNumber)
+
+        return {
+            events,
+            meta: {
+                totalEvents,
+                hasNextPage,
+                hasPreviousPage,
+                currentPage: pageNumber,
+                nextPage,
+                previousPage,
+                lastPage,
+            },
+        }
     }
 
     static async getEventById(id) {
@@ -18,12 +40,36 @@ class EventService {
         return await EventRepository.get(id)
     }
 
-    static async getEventsByUserId(userId) {
+    static async getEventsByUserId(userId, pageNumber = 1, limitNumber = 4) {
         if (!userId || userId === '') {
-            throw new InvalidParamError('User ID is required')
+            throw new InvalidParamError('ID is required')
         }
 
-        return await EventRepository.getByUserId(userId)
+        const { events, docsQuantity } = await EventRepository.getByUserId(
+            userId,
+            pageNumber,
+            limitNumber
+        )
+
+        const totalEvents = docsQuantity
+        const hasNextPage = docsQuantity > pageNumber * limitNumber
+        const hasPreviousPage = pageNumber > 1
+        const nextPage = hasNextPage ? pageNumber + 1 : null
+        const previousPage = hasPreviousPage ? pageNumber - 1 : null
+        const lastPage = Math.ceil(docsQuantity / limitNumber)
+
+        return {
+            events,
+            meta: {
+                totalEvents,
+                hasNextPage,
+                hasPreviousPage,
+                currentPage: pageNumber,
+                nextPage,
+                previousPage,
+                lastPage,
+            },
+        }
     }
 
     static async createEvent(data) {

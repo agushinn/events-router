@@ -8,7 +8,9 @@ function isValidDate(value) {
 }
 
 function isValidImageUrl(value) {
-    const urlPattern = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))$/i
+    const urlPattern =
+        /^(https?:\/\/(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/[^\s]*)?(?:\?.*)?)$/i
+
     return urlPattern.test(value)
 }
 

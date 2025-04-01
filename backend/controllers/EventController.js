@@ -3,8 +3,15 @@ const ApiController = require('./ApiController')
 
 class EventController {
     static async getAllEvents(req, res, next) {
+        const { page, limit } = req.query
+        const pageNumber = parseInt(page) || 1
+        const limitNumber = parseInt(limit) || 4
+
         try {
-            const events = await EventService.getAllEvents()
+            const events = await EventService.getAllEvents(
+                pageNumber,
+                limitNumber
+            )
             ApiController.sendSuccessResponse(
                 res,
                 events,
@@ -60,8 +67,14 @@ class EventController {
 
     static async getEventsByUserId(req, res, next) {
         try {
+            const { page, limit } = req.query
+            const pageNumber = parseInt(page) || 1
+            const limitNumber = parseInt(limit) || 4
+
             const events = await EventService.getEventsByUserId(
-                req.params.userId
+                req.params.userId,
+                pageNumber,
+                limitNumber
             )
             ApiController.sendSuccessResponse(
                 res,

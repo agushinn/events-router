@@ -49,6 +49,7 @@ function MainNavigation() {
                             </li>
                             <li>
                                 <NavLink
+                                    end
                                     to={'/events'}
                                     className={({ isActive }) =>
                                         isActive ? styles.active : ''

@@ -1,74 +1,59 @@
-const { ObjectId } = require('mongodb')
-const { connectToDatabase } = require('../database/mongoConnection')
+const Event = require('../models/event')
 const { NotFoundError } = require('../factory/ErrorsFactory')
+
 class EventRepository {
-    static async getCollection() {
-        const db = await connectToDatabase()
+    static async getAll(pageNumber, limitNumber) {
+        const [events, docsQuantity] = await Promise.all([
+            Event.find()
+                .skip((pageNumber - 1) * limitNumber)
+                .limit(limitNumber),
+            Event.countDocuments(),
+        ])
 
-        return db.collection('events')
-    }
-
-    static async getAll() {
-        const collection = await this.getCollection()
-
-        return collection.find().toArray()
+        return { events, docsQuantity }
     }
 
     static async get(id) {
-        const collection = await this.getCollection()
-        const objectId = new ObjectId(id)
-        const event = await collection.findOne({ _id: objectId })
-
+        const event = await Event.findById(id)
         if (!event) {
-            throw new NotFoundError('Event not found')
+            throw new NotFoundError('Event not found', 404)
         }
-
         return event
     }
 
-    static async getByUserId(userId) {
-        const collection = await this.getCollection()
-        const objectId = new ObjectId(userId)
+    static async getByUserId(userId, pageNumber, limitNumber) {
+        const [events, docsQuantity] = await Promise.all([
+            Event.find({ author_id: userId })
+                .skip((pageNumber - 1) * limitNumber)
+                .limit(limitNumber),
+            Event.countDocuments({ author_id: userId }),
+        ])
 
-        return collection.find({ author_id: objectId }).toArray()
+        return { events, docsQuantity }
     }
 
     static async add(eventData) {
-        const collection = await this.getCollection()
-        const { author_id } = eventData
-        const objectId = new ObjectId(author_id)
-
-        const eventDataFormated = { ...eventData, author_id: objectId }
-
-        const result = await collection.insertOne(eventDataFormated)
-
-        return result.insertedId
+        const event = new Event(eventData)
+        await event.save()
+        return event._id
     }
 
     static async replace(id, eventData) {
-        const collection = await this.getCollection()
-        const objectId = new ObjectId(id)
-        const result = await collection.replaceOne(
-            { _id: objectId },
-            { ...eventData, _id: objectId }
-        )
-
-        if (result.modifiedCount === 0) {
-            throw new NotFoundError('Could not find event for id ' + id)
+        const event = await Event.findByIdAndUpdate(id, eventData, {
+            new: true,
+            overwrite: true,
+        })
+        if (!event) {
+            throw new NotFoundError('Could not find event for id ' + id, 404)
         }
-
         return id
     }
 
     static async remove(id) {
-        const collection = await this.getCollection()
-        const objectId = new ObjectId(id)
-        const result = await collection.deleteOne({ _id: objectId })
-
-        if (result.deletedCount === 0) {
-            throw new NotFoundError('Event not found')
+        const result = await Event.findByIdAndDelete(id)
+        if (!result) {
+            throw new NotFoundError('Event not found', 404)
         }
-
         return id
     }
 }
