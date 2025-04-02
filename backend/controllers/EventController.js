@@ -5,17 +5,17 @@ class EventController {
     static async getAllEvents(req, res, next) {
         const { page, limit } = req.query
         const pageNumber = parseInt(page) || 1
-        const limitNumber = parseInt(limit) || 4
+        const limitNumber = parseInt(limit) || 0
 
         try {
             const events = await EventService.getAllEvents(
                 pageNumber,
-                limitNumber
+                limitNumber,
             )
             ApiController.sendSuccessResponse(
                 res,
                 events,
-                'Events retrieved successfully'
+                'Events retrieved successfully',
             )
         } catch (error) {
             next(error)
@@ -29,7 +29,7 @@ class EventController {
                 res,
                 { message: `Event created with id ${eventId}` },
                 'Event created successfully',
-                201
+                201,
             )
         } catch (error) {
             next(error)
@@ -40,12 +40,12 @@ class EventController {
         try {
             const updatedId = await EventService.updateEvent(
                 req.params.id,
-                req.body
+                req.body,
             )
             ApiController.sendSuccessResponse(
                 res,
                 { message: 'Event updated with id ' + updatedId },
-                'Event updated successfully'
+                'Event updated successfully',
             )
         } catch (error) {
             next(error)
@@ -58,7 +58,7 @@ class EventController {
             ApiController.sendSuccessResponse(
                 res,
                 { message: 'Event deleted with id ' + deletedId },
-                'Event deleted successfully'
+                'Event deleted successfully',
             )
         } catch (error) {
             next(error)
@@ -69,17 +69,17 @@ class EventController {
         try {
             const { page, limit } = req.query
             const pageNumber = parseInt(page) || 1
-            const limitNumber = parseInt(limit) || 4
+            const limitNumber = parseInt(limit) || 0
 
             const events = await EventService.getEventsByUserId(
                 req.params.userId,
                 pageNumber,
-                limitNumber
+                limitNumber,
             )
             ApiController.sendSuccessResponse(
                 res,
                 events,
-                'Events retrieved successfully'
+                'Events retrieved successfully',
             )
         } catch (error) {
             next(error)
@@ -92,7 +92,7 @@ class EventController {
             ApiController.sendSuccessResponse(
                 res,
                 event,
-                'Event retrieved successfully'
+                'Event retrieved successfully',
             )
         } catch (error) {
             next(error)

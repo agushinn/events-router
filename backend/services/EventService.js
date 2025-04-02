@@ -7,10 +7,10 @@ const {
 } = require('../utils/validation')
 
 class EventService {
-    static async getAllEvents(pageNumber = 1, limitNumber = 4) {
+    static async getAllEvents(pageNumber = 1, limitNumber = 0) {
         const { events, docsQuantity } = await EventRepository.getAll(
             pageNumber,
-            limitNumber
+            limitNumber,
         )
         const totalEvents = docsQuantity
         const hasNextPage = docsQuantity > pageNumber * limitNumber
@@ -48,7 +48,7 @@ class EventService {
         const { events, docsQuantity } = await EventRepository.getByUserId(
             userId,
             pageNumber,
-            limitNumber
+            limitNumber,
         )
 
         const totalEvents = docsQuantity
@@ -98,7 +98,7 @@ class EventService {
         if (Object.keys(errors).length > 0) {
             throw new InvalidParamError(
                 'Failed to create event due to invalid fields',
-                errors
+                errors,
             )
         }
 
@@ -131,7 +131,7 @@ class EventService {
         if (Object.keys(errors).length > 0) {
             throw new InvalidParamError(
                 'Failed to update event due to invalid fields',
-                errors
+                errors,
             )
         }
 
