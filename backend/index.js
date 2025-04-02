@@ -41,6 +41,7 @@ app.use('/api/v1/events', eventRoutes)
 app.use('/api/v1/newsletters', newsletterRoutes)
 app.use('/api/v1/emails', emailRoutes)
 
+// Sirve los assets de Swagger UI de forma explícita
 const swaggerUiAssetPath = require('swagger-ui-dist').getAbsoluteFSPath()
 app.use(
     '/swagger-ui.css',
@@ -57,7 +58,8 @@ app.use(
     ),
 )
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+// Configuración habitual de swagger-ui-express
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocument))
 
 // Error handling
 app.use('*', notFoundMiddleware)
