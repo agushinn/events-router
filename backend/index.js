@@ -1,8 +1,8 @@
 const express = require('express')
 const dbConnection = require('./database/mongooseConnection')
-const YAML = require('yamljs')
-const swaggerUi = require('swagger-ui-express')
-const path = require('path')
+// const YAML = require('yamljs')
+// const swaggerUi = require('swagger-ui-express')
+// const path = require('path')
 
 const {
     securityMiddleware,
@@ -14,6 +14,7 @@ const {
     notFoundMiddleware,
     errorHandlerMiddleware,
 } = require('./middlewares/errorHandler')
+const swaggerMiddleware = require('./middlewares/swaggerMiddleware')
 
 const authRoutes = require('./routes/AuthRoutes.js')
 const eventRoutes = require('./routes/EventRoutes.js')
@@ -27,7 +28,7 @@ app.set('trust proxy', 1)
 // Database Connection
 dbConnection()
 
-const openApiDocument = YAML.load(path.join(__dirname, 'swagger.yaml'))
+// const openApiDocument = YAML.load(path.join(__dirname, 'swagger.yaml'))
 
 // Middlewares
 app.use(securityMiddleware)
@@ -41,19 +42,7 @@ app.use('/api/v1/events', eventRoutes)
 app.use('/api/v1/newsletters', newsletterRoutes)
 app.use('/api/v1/emails', emailRoutes)
 
-app.use(
-    '/api-docs',
-    swaggerUi.serve,
-    swaggerUi.setup(openApiDocument, {
-        customSiteTitle: 'API Docs',
-        customCssUrl: 'https://unpkg.com/swagger-ui-dist@4/swagger-ui.css',
-    }),
-)
-
-app.use(
-    '/swagger-ui',
-    express.static(path.join(__dirname, 'node_modules', 'swagger-ui-dist')),
-)
+swaggerMiddleware(app)
 
 // Error handling
 app.use('*', notFoundMiddleware)
