@@ -41,22 +41,23 @@ app.use('/api/v1/events', eventRoutes)
 app.use('/api/v1/newsletters', newsletterRoutes)
 app.use('/api/v1/emails', emailRoutes)
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocument))
-// app.use('/api-docs', swaggerUi.serve, async (req, res, next) => {
-//     return res.send(swaggerUi.generateHTML(openApiDocument))
-// })
+const swaggerUiAssetPath = require('swagger-ui-dist').getAbsoluteFSPath()
+app.use(
+    '/swagger-ui.css',
+    express.static(path.join(swaggerUiAssetPath, 'swagger-ui.css')),
+)
+app.use(
+    '/swagger-ui-bundle.js',
+    express.static(path.join(swaggerUiAssetPath, 'swagger-ui-bundle.js')),
+)
+app.use(
+    '/swagger-ui-standalone-preset.js',
+    express.static(
+        path.join(swaggerUiAssetPath, 'swagger-ui-standalone-preset.js'),
+    ),
+)
 
-// app.use(
-//     '/api-docs',
-//     swaggerUi.serve,
-//     swaggerUi.setup(openApiDocument, {
-//         customCssUrl: 'https://unpkg.com/swagger-ui-dist@4/swagger-ui.css',
-//         customJs: [
-//             'https://unpkg.com/swagger-ui-dist@4/swagger-ui-bundle.js',
-//             'https://unpkg.com/swagger-ui-dist@4/swagger-ui-standalone-preset.js',
-//         ],
-//     }),
-// )
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 // Error handling
 app.use('*', notFoundMiddleware)
