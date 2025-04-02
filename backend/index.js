@@ -1,11 +1,18 @@
 const express = require('express')
-const helmet = require('helmet')
-const rateLimit = require('express-rate-limit')
-const cors = require('cors')
 const dbConnection = require('./database/mongooseConnection')
+const YAML = require('yamljs')
+const swaggerUi = require('swagger-ui-express')
 
-const { NotFoundError } = require('./factory/ErrorsFactory.js')
-const { sendErrorResponse } = require('./controllers/ApiController.js')
+const {
+    securityMiddleware,
+    globalLimiter,
+    authLimiter,
+} = require('./middlewares/security')
+const corsMiddleware = require('./middlewares/cors')
+const {
+    notFoundMiddleware,
+    errorHandlerMiddleware,
+} = require('./middlewares/errorHandler')
 
 const authRoutes = require('./routes/AuthRoutes.js')
 const eventRoutes = require('./routes/EventRoutes.js')
@@ -17,74 +24,24 @@ const app = express()
 // Database Connection
 dbConnection()
 
-// 1. Basic Security with Helmet
-app.use(
-    helmet({
-        contentSecurityPolicy: {
-            directives: {
-                defaultSrc: ["'self'"],
-                scriptSrc: ["'self'", "'unsafe-inline'"],
-                styleSrc: ["'self'", "'unsafe-inline'"],
-                imgSrc: ["'self'", 'data:', 'https://*.vercel.app'],
-            },
-        },
-        crossOriginResourcePolicy: { policy: 'cross-origin' },
-    })
-)
+const openApiDocument = YAML.load('./swagger.yaml')
 
-// 2. Rate Limiting global
-const globalLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 mins
-    max: 100,
-    standardHeaders: true,
-    legacyHeaders: false,
-    message: 'Too many requests from this IP, please try again later',
-})
+// Middlewares
+app.use(securityMiddleware)
 app.use(globalLimiter)
-
-// 3. CORS
-const allowedOrigins = ['https://events-router-frontend.vercel.app']
-
-app.use(
-    cors({
-        origin: (origin, callback) => {
-            if (!origin || allowedOrigins.includes(origin)) {
-                callback(null, true)
-            } else {
-                callback(new Error('Not allowed by CORS'))
-            }
-        },
-        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
-        credentials: true,
-        optionsSuccessStatus: 200,
-    })
-)
-
-// 4. Rate Limiting specific for auth
-const authLimiter = rateLimit({
-    windowMs: 60 * 60 * 1000, // 1 hour
-    max: 10, // 10 tries
-    message: 'Too many login attempts, please try again after an hour',
-    standardHeaders: true,
-    legacyHeaders: false,
-})
-
-// 5. Body Parser
+app.use(corsMiddleware)
 app.use(express.json())
 
-// 6. Routes
+// Routes
 app.use('/api/v1/auth', authLimiter, authRoutes)
 app.use('/api/v1/events', eventRoutes)
 app.use('/api/v1/newsletters', newsletterRoutes)
 app.use('/api/v1/emails', emailRoutes)
 
-app.use('*', (req, res, next) => {
-    throw new NotFoundError('Page not found', 'PageNotFoundError', 404)
-})
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocument))
 
-app.use((error, req, res, next) => {
-    sendErrorResponse(res, error)
-})
+// Error handling
+app.use('*', notFoundMiddleware)
+app.use(errorHandlerMiddleware)
 
 module.exports = app
