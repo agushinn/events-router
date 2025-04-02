@@ -22,6 +22,8 @@ const emailRoutes = require('./routes/EmailRoutes.js')
 
 const app = express()
 
+app.set('trust proxy', 1)
+
 // Database Connection
 dbConnection()
 
