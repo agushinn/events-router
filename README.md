@@ -7,6 +7,8 @@ This project consists of two integrated parts working together to provide a comp
 
 ### https://events-router-backend.vercel.app/api/v1/events
 
+### https://events-router-backend.vercel.app/api-docs/
+
 ---
 
 ## 1. Node.js API Backend
