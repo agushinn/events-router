@@ -1,0 +1,803 @@
+openapi: 3.0.0
+info:
+    title: Events API Rest
+    version: 1.0.1
+    description: API for managing events
+    contact:
+        name: agushin
+        url: https://github.com/agushinn
+        email: rys.agustin@gmail.com
+servers:
+    - url: http://localhost:8000/api/v1
+      description: Local server on port 8000
+    - url: https://events-router-backend.vercel.app/api/v1
+      description: Production server on Vercel
+tags:
+    - name: Events
+      description: Event management operations
+    - name: Authentication
+      description: User authentication and registration
+    - name: Newsletters
+      description: Newsletter email management
+    - name: Emails
+      description: Email service configuration
+components:
+    securitySchemes:
+        BearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+    schemas:
+        Event:
+            type: object
+            required:
+                - title
+                - date
+                - author_id
+            properties:
+                id:
+                    type: string
+                    description: Auto-generated event ID
+                    example: 507f1f77bcf86cd799439011
+                title:
+                    type: string
+                    minLength: 3
+                    maxLength: 100
+                    example: Tech Conference 2024
+                description:
+                    type: string
+                    maxLength: 1000
+                    example: Annual technology conference
+                date:
+                    type: string
+                    format: date-time
+                    example: 2024-09-15T09:00:00Z
+                image:
+                    type: string
+                    format: uri
+                    example: https://example.com/event-image.jpg
+                author_id:
+                    type: string
+                    description: ID of the user who created the event
+                    example: 507f1f77bcf86cd799439012
+
+        User:
+            type: object
+            required:
+                - email
+                - password
+            properties:
+                email:
+                    type: string
+                    format: email
+                    example: user@example.com
+                password:
+                    type: string
+                    minLength: 6
+                    example: securePassword123
+
+        EmailCredentials:
+            type: object
+            required:
+                - apiKey
+            properties:
+                apiKey:
+                    type: string
+                    description: Resend API key
+                    example: re_123456789
+
+        NewsletterEmail:
+            type: object
+            required:
+                - email
+            properties:
+                email:
+                    type: string
+                    format: email
+                    example: user@example.com
+
+        NewsletterBulkRequest:
+            type: object
+            required:
+                - emails
+            properties:
+                emails:
+                    type: array
+                    items:
+                        type: string
+                        format: email
+                    example: ['user1@example.com', 'user2@example.com']
+
+        NewsletterOperationResult:
+            type: object
+            properties:
+                message:
+                    type: string
+                    example: '3 emails processed successfully'
+                affectedEmails:
+                    type: array
+                    items:
+                        type: string
+                    example: ['user1@example.com', 'user2@example.com']
+
+        PaginationMeta:
+            type: object
+            properties:
+                totalEvents:
+                    type: integer
+                    example: 100
+                hasNextPage:
+                    type: boolean
+                    example: true
+                hasPreviousPage:
+                    type: boolean
+                    example: false
+                currentPage:
+                    type: integer
+                    example: 1
+                nextPage:
+                    type: integer
+                    nullable: true
+                    example: 2
+                previousPage:
+                    type: integer
+                    nullable: true
+                    example: null
+                lastPage:
+                    type: integer
+                    example: 25
+
+        AuthResponse:
+            type: object
+            properties:
+                id:
+                    type: string
+                    example: 507f1f77bcf86cd799439011
+                email:
+                    type: string
+                    example: user@example.com
+                userType:
+                    type: string
+                    enum: [REGULAR, ADMIN]
+                    example: REGULAR
+                roles:
+                    type: array
+                    items:
+                        type: string
+                        enum: [CREATE, READ, UPDATE, DELETE, CONTROL_PANEL]
+                    example: [CREATE, READ, UPDATE, DELETE]
+                token:
+                    type: string
+                    description: JWT for authenticated requests
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+        SuccessResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: true
+                message:
+                    type: string
+                    example: Operation completed successfully
+                status:
+                    type: integer
+                    example: 200
+                data:
+                    type: object
+                    description: Response payload
+
+        ErrorResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+                    example: false
+                message:
+                    type: string
+                    example: Invalid input parameters
+                statusCode:
+                    type: integer
+                    example: 400
+                trace:
+                    type: string
+                    example: InvalidParamError
+                data:
+                    type: array
+                    items:
+                        type: object
+                    example: []
+
+    parameters:
+        pageParam:
+            in: query
+            name: page
+            schema:
+                type: integer
+                minimum: 1
+                default: 1
+            description: Page number for pagination
+
+        limitParam:
+            in: query
+            name: limit
+            schema:
+                type: integer
+                minimum: 1
+                maximum: 100
+                default: 4
+            description: Number of items per page
+
+        eventIdParam:
+            in: path
+            name: eventId
+            required: true
+            schema:
+                type: string
+            description: ID of the event
+
+        userIdParam:
+            in: path
+            name: userId
+            required: true
+            schema:
+                type: string
+            description: ID of the user
+
+    responses:
+        400Error:
+            description: Bad Request
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ErrorResponse'
+                    example:
+                        success: false
+                        message: 'Validation failed'
+                        statusCode: 400
+                        trace: 'ValidationError'
+                        data:
+                            - field: 'title'
+                              error: 'Title is invalid'
+        401Error:
+            description: Unauthorized
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ErrorResponse'
+                    example:
+                        success: false
+                        message: 'Not authenticated'
+                        statusCode: 401
+                        trace: 'NotAuthError'
+
+        403Error:
+            description: Forbidden
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ErrorResponse'
+                    example:
+                        success: false
+                        message: 'Access denied: Admins only'
+                        statusCode: 403
+                        trace: 'NotAuthError'
+
+        404Error:
+            description: Not Found
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ErrorResponse'
+                    example:
+                        success: false
+                        message: 'Resource not found'
+                        statusCode: 404
+                        trace: 'NotFoundError'
+                        data: []
+
+        500Error:
+            description: Internal Server Error
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/ErrorResponse'
+                    example:
+                        success: false
+                        message: 'Internal server error'
+                        statusCode: 500
+                        trace: 'DatabaseError'
+                        data: []
+
+paths:
+    /events:
+        get:
+            tags: [Events]
+            summary: Get paginated list of events
+            parameters:
+                - $ref: '#/components/parameters/pageParam'
+                - $ref: '#/components/parameters/limitParam'
+            responses:
+                200:
+                    description: Successfully retrieved events
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              type: object
+                                              properties:
+                                                  events:
+                                                      type: array
+                                                      items:
+                                                          $ref: '#/components/schemas/Event'
+                                                  meta:
+                                                      $ref: '#/components/schemas/PaginationMeta'
+                400:
+                    $ref: '#/components/responses/400Error'
+                500:
+                    $ref: '#/components/responses/500Error'
+
+        post:
+            tags: [Events]
+            summary: Create a new event
+            security:
+                - BearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Event'
+            responses:
+                201:
+                    description: Event created successfully
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              type: object
+                                              properties:
+                                                  message:
+                                                      type: string
+                                                      example: Event created with id 507f1f77bcf86cd799439011
+                400:
+                    $ref: '#/components/responses/400Error'
+                500:
+                    $ref: '#/components/responses/500Error'
+
+    /events/{eventId}:
+        get:
+            tags: [Events]
+            summary: Get a single event by ID
+            parameters:
+                - $ref: '#/components/parameters/eventIdParam'
+            responses:
+                200:
+                    description: Successfully retrieved event
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              $ref: '#/components/schemas/Event'
+                404:
+                    $ref: '#/components/responses/404Error'
+                500:
+                    $ref: '#/components/responses/500Error'
+
+        patch:
+            tags: [Events]
+            summary: Update an existing event
+            security:
+                - BearerAuth: []
+            parameters:
+                - $ref: '#/components/parameters/eventIdParam'
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Event'
+            responses:
+                200:
+                    description: Event updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              type: object
+                                              properties:
+                                                  message:
+                                                      type: string
+                                                      example: Event updated with id 507f1f77bcf86cd799439011
+                400:
+                    $ref: '#/components/responses/400Error'
+                404:
+                    $ref: '#/components/responses/404Error'
+                500:
+                    $ref: '#/components/responses/500Error'
+
+        delete:
+            tags: [Events]
+            summary: Delete an event
+            security:
+                - BearerAuth: []
+            parameters:
+                - $ref: '#/components/parameters/eventIdParam'
+            responses:
+                200:
+                    description: Event deleted successfully
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              type: object
+                                              properties:
+                                                  message:
+                                                      type: string
+                                                      example: Event deleted with id 507f1f77bcf86cd799439011
+                404:
+                    $ref: '#/components/responses/404Error'
+                500:
+                    $ref: '#/components/responses/500Error'
+
+    /events/users/{userId}:
+        get:
+            tags: [Events]
+            summary: Get events by user ID
+            parameters:
+                - $ref: '#/components/parameters/userIdParam'
+                - $ref: '#/components/parameters/pageParam'
+                - $ref: '#/components/parameters/limitParam'
+            responses:
+                200:
+                    description: Successfully retrieved user events
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              type: object
+                                              properties:
+                                                  events:
+                                                      type: array
+                                                      items:
+                                                          $ref: '#/components/schemas/Event'
+                                                  meta:
+                                                      $ref: '#/components/schemas/PaginationMeta'
+                400:
+                    $ref: '#/components/responses/400Error'
+                404:
+                    $ref: '#/components/responses/404Error'
+                500:
+                    $ref: '#/components/responses/500Error'
+
+    /auth/signup:
+        post:
+            tags: [Authentication]
+            summary: Register a new regular user
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+            responses:
+                201:
+                    description: User created successfully
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              $ref: '#/components/schemas/AuthResponse'
+                400:
+                    description: Validation error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                            example:
+                                success: false
+                                message: 'User signup failed due to validation errors'
+                                statusCode: 400
+                                trace: 'InvalidParamError'
+                                data:
+                                    email: 'Email exists already.'
+
+    /auth/admin:
+        post:
+            tags: [Authentication]
+            summary: Register a new admin user (requires privileges)
+            security:
+                - BearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+            responses:
+                201:
+                    description: Admin user created
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              $ref: '#/components/schemas/AuthResponse'
+                400:
+                    $ref: '#/components/responses/400Error'
+                401:
+                    description: Unauthorized
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                            example:
+                                success: false
+                                message: 'Authentication failed'
+                                statusCode: 401
+                                trace: 'NotAuthError'
+
+    /auth/login:
+        post:
+            tags: [Authentication]
+            summary: Authenticate user
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+            responses:
+                200:
+                    description: Login successful
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              $ref: '#/components/schemas/AuthResponse'
+                400:
+                    description: Invalid credentials
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                            example:
+                                success: false
+                                message: 'Invalid credentials'
+                                statusCode: 400
+                                trace: 'InvalidParamError'
+                                data:
+                                    password: 'Invalid password'
+
+    /emails/set-credentials:
+        post:
+            tags: [Emails]
+            summary: Update email service credentials (Admin only)
+            description: Requires ADMIN privileges
+            security:
+                - BearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/EmailCredentials'
+            responses:
+                200:
+                    description: Credentials updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              type: object
+                                              properties:
+                                                  message:
+                                                      type: string
+                                                      example: Credenciales actualizadas
+                400:
+                    description: Invalid API key format
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                            example:
+                                success: false
+                                message: 'API Key is required'
+                                statusCode: 400
+                                trace: 'InvalidParamError'
+                401:
+                    $ref: '#/components/responses/401Error'
+                403:
+                    $ref: '#/components/responses/403Error'
+                500:
+                    $ref: '#/components/responses/500Error'
+
+    /newsletters:
+        get:
+            tags: [Newsletters]
+            summary: Get all subscribed emails (Admin only)
+            security:
+                - BearerAuth: []
+            responses:
+                200:
+                    description: List of subscribed emails
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              type: array
+                                              items:
+                                                  $ref: '#/components/schemas/NewsletterEmail'
+                401:
+                    $ref: '#/components/responses/401Error'
+                403:
+                    description: Forbidden
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                            example:
+                                success: false
+                                message: 'Access denied: Admins only'
+                                statusCode: 403
+                                trace: 'NotAuthError'
+                500:
+                    $ref: '#/components/responses/500Error'
+
+        post:
+            tags: [Newsletters]
+            summary: Subscribe email to newsletter
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                    format: email
+                                    example: user@example.com
+            responses:
+                201:
+                    description: Email subscribed successfully
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              $ref: '#/components/schemas/NewsletterEmail'
+                400:
+                    description: Invalid email format
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                            example:
+                                success: false
+                                message: 'Email is invalid'
+                                statusCode: 400
+                                trace: 'InvalidParamError'
+                409:
+                    description: Email already subscribed
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                            example:
+                                success: false
+                                message: 'Email already subscribed'
+                                statusCode: 409
+                                trace: 'InvalidParamError'
+
+    /newsletters/send:
+        post:
+            tags: [Newsletters]
+            summary: Send newsletter to multiple emails (Admin only)
+            security:
+                - BearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/NewsletterBulkRequest'
+            responses:
+                200:
+                    description: Newsletter sent successfully
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              $ref: '#/components/schemas/NewsletterOperationResult'
+                400:
+                    $ref: '#/components/responses/400Error'
+                401:
+                    $ref: '#/components/responses/401Error'
+                403:
+                    $ref: '#/components/responses/403Error'
+                500:
+                    $ref: '#/components/responses/500Error'
+
+    /newsletters/unsubscribe:
+        delete:
+            tags: [Newsletters]
+            summary: Unsubscribe multiple emails (Admin only)
+            security:
+                - BearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/NewsletterBulkRequest'
+            responses:
+                200:
+                    description: Emails unsubscribed successfully
+                    content:
+                        application/json:
+                            schema:
+                                allOf:
+                                    - $ref: '#/components/schemas/SuccessResponse'
+                                    - type: object
+                                      properties:
+                                          data:
+                                              $ref: '#/components/schemas/NewsletterOperationResult'
+                400:
+                    $ref: '#/components/responses/400Error'
+                401:
+                    $ref: '#/components/responses/401Error'
+                403:
+                    $ref: '#/components/responses/403Error'
+                500:
+                    $ref: '#/components/responses/500Error'

@@ -59,8 +59,8 @@ class NewsletterService {
         })
 
         try {
-            const events = await EventService.getAllEvents()
-            if (!events.length) {
+            const { events, meta } = await EventService.getAllEvents(1, null)
+            if (meta.totalEvents <= 0) {
                 throw new NotFoundError('No events found')
             }
 
