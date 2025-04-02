@@ -2,6 +2,7 @@ const express = require('express')
 const dbConnection = require('./database/mongooseConnection')
 const YAML = require('yamljs')
 const swaggerUi = require('swagger-ui-express')
+const path = require('path')
 
 const {
     securityMiddleware,
@@ -24,7 +25,7 @@ const app = express()
 // Database Connection
 dbConnection()
 
-const openApiDocument = YAML.load('./swagger.yaml')
+const openApiDocument = YAML.load(path.join(__dirname, 'swagger.yaml'))
 
 // Middlewares
 app.use(securityMiddleware)
