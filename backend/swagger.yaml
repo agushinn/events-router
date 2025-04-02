@@ -8,8 +8,8 @@ info:
         url: https://github.com/agushinn
         email: rys.agustin@gmail.com
 servers:
-    - url: http://localhost:8000/api/v1
-      description: Local server on port 8000
+    # - url: http://localhost:8000/api/v1
+    #   description: Local server on port 8000
     - url: https://events-router-backend.vercel.app/api/v1
       description: Production server on Vercel
 tags:
