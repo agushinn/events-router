@@ -41,10 +41,19 @@ app.use('/api/v1/events', eventRoutes)
 app.use('/api/v1/newsletters', newsletterRoutes)
 app.use('/api/v1/emails', emailRoutes)
 
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocument))
-app.use('/api-docs', swaggerUi.serve, async (req, res, next) => {
-    return res.send(swaggerUi.generateHTML(openApiDocument))
-})
+app.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(openApiDocument, {
+        customSiteTitle: 'API Docs',
+        customCssUrl: 'https://unpkg.com/swagger-ui-dist@4/swagger-ui.css',
+    }),
+)
+
+app.use(
+    '/swagger-ui',
+    express.static(path.join(__dirname, 'node_modules', 'swagger-ui-dist')),
+)
 
 // Error handling
 app.use('*', notFoundMiddleware)
