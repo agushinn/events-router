@@ -11,10 +11,7 @@ const dbConnection = async () => {
     const uri = `mongodb+srv://${DATABASE_USER}:${DATABASE_PASSWORD}@events-router.ggw2n.mongodb.net/${DATABASE_NAME}?retryWrites=true&w=majority&appName=${DATABASE_APP_NAME}`
 
     try {
-        const conn = await mongoose.connect(uri, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        })
+        const conn = await mongoose.connect(uri)
 
         console.log(`✅ Connected to MongoDB: ${conn.connection.name}`)
     } catch (error) {
