@@ -11,7 +11,7 @@ const {
     notFoundMiddleware,
     errorHandlerMiddleware,
 } = require('./middlewares/errorHandler')
-const swaggerMiddleware = require('./middlewares/swaggerMiddleware')
+const swaggerMiddleware = require('./middlewares/swagger')
 
 const authRoutes = require('./routes/AuthRoutes.js')
 const eventRoutes = require('./routes/EventRoutes.js')
