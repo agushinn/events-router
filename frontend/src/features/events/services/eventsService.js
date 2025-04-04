@@ -3,7 +3,7 @@ import { redirect } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { API_URL } from '@constants/configs'
-import { IMAGE_TYPE } from '@constants/imageTypes'
+import { IMAGE_TYPE } from '@constants/imageType'
 import { getAuthToken, getUserId } from '@services/auth'
 
 const handlerEventAction = async ({ request, params }) => {
