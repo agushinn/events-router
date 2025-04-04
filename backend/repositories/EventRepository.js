@@ -39,10 +39,12 @@ class EventRepository {
     }
 
     static async replace(id, eventData) {
-        const event = await Event.findByIdAndUpdate(id, eventData, {
-            new: true,
-            overwrite: true,
-        })
+        const event = await Event.findByIdAndUpdate(
+            id,
+            { $set: eventData },
+            { new: true },
+        )
+
         if (!event) {
             throw new NotFoundError('Could not find event for id ' + id, 404)
         }
