@@ -24,7 +24,8 @@ class EventController {
 
     static async createEvent(req, res, next) {
         try {
-            const eventId = await EventService.createEvent(req.body)
+            const eventId = await EventService.createEvent(req.body, req.file)
+
             ApiController.sendSuccessResponse(
                 res,
                 { message: `Event created with id ${eventId}` },
@@ -41,7 +42,9 @@ class EventController {
             const updatedId = await EventService.updateEvent(
                 req.params.id,
                 req.body,
+                req.file,
             )
+
             ApiController.sendSuccessResponse(
                 res,
                 { message: 'Event updated with id ' + updatedId },
