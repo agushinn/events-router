@@ -3,9 +3,10 @@ import styles from '@events/styles/EventsList.module.scss'
 
 import { Link, useSearchParams } from 'react-router-dom'
 
+import { absoluteImageUrl } from '@utils/urlImageBuilder'
+
 function EventsList({ events, meta, title }) {
     const {
-        totalEvents,
         hasNextPage,
         hasPreviousPage,
         currentPage,
@@ -58,7 +59,13 @@ function EventsList({ events, meta, title }) {
                         {events.map((event) => (
                             <li key={event._id} className={styles.item}>
                                 <Link to={`/events/${event._id}`}>
-                                    <img src={event.image} alt={event.title} />
+                                    <img
+                                        src={`${absoluteImageUrl(
+                                            event.image,
+                                            event.imageMode
+                                        )}`}
+                                        alt={event.title}
+                                    />
                                     <div className={styles.content}>
                                         <h2>{event.title}</h2>
                                         <time>{event.date}</time>
@@ -74,7 +81,7 @@ function EventsList({ events, meta, title }) {
                 <ul className={styles.pagination}>
                     <li>
                         <Link
-                            to={`/events?page=1&limit=${itemsPerPage}`}
+                            to={`?page=1&limit=${itemsPerPage}`}
                             aria-label="Go to first page"
                         >
                             {'<<'}
@@ -82,7 +89,7 @@ function EventsList({ events, meta, title }) {
                     </li>
                     <li>
                         <Link
-                            to={`/events?page=${
+                            to={`?page=${
                                 !previousPage ? 1 : previousPage
                             }&limit=${itemsPerPage}`}
                             aria-label="Go to previous page"
@@ -103,7 +110,7 @@ function EventsList({ events, meta, title }) {
 
                     <li>
                         <Link
-                            to={`/events?page=${
+                            to={`?page=${
                                 !hasNextPage ? lastPage : nextPage
                             }&limit=${itemsPerPage}`}
                             aria-label="Go to next page"
@@ -116,7 +123,7 @@ function EventsList({ events, meta, title }) {
                     </li>
                     <li>
                         <Link
-                            to={`/events?page=${lastPage}&limit=${itemsPerPage}`}
+                            to={`?page=${lastPage}&limit=${itemsPerPage}`}
                             aria-label="Go to last page"
                         >
                             {'>>'}

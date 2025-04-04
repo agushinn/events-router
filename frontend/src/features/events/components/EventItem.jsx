@@ -5,6 +5,7 @@ import styles from '@events/styles/EventItem.module.scss'
 import { Link, useRouteLoaderData, useSubmit } from 'react-router-dom'
 
 import { getUserRoles } from '@services/auth'
+import { absoluteImageUrl } from '@utils/urlImageBuilder'
 
 import { Modal } from '@components/Modal/Modal'
 
@@ -58,7 +59,10 @@ function EventItem({ event }) {
                 </Modal>
             )}
             <article className={styles.event}>
-                <img src={event.image} alt={event.title} />
+                <img
+                    src={`${absoluteImageUrl(event.image, event.imageMode)}`}
+                    alt={event.title}
+                />
                 <h2>{event.title}</h2>
                 <time>{event.date}</time>
                 <p>{event.description}</p>
