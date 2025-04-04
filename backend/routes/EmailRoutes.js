@@ -3,7 +3,7 @@ const EmailController = require('../controllers/EmailController')
 const {
     checkAuthMiddleware,
     authorizeAdminMiddleware,
-} = require('../middlewares/auth')
+} = require('../middlewares/authorization')
 
 const router = express.Router()
 
@@ -11,7 +11,7 @@ router.post(
     '/set-credentials',
     checkAuthMiddleware,
     authorizeAdminMiddleware,
-    EmailController.setCredentials
+    EmailController.setCredentials,
 )
 
 module.exports = router

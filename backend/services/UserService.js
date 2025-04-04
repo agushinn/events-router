@@ -1,7 +1,7 @@
 const UserRepository = require('../repositories/UserRepository')
 const { InvalidParamError, NotAuthError } = require('../factory/ErrorsFactory')
 const { isValidEmail, isValidText } = require('../utils/validation')
-const { createJSONToken, isValidPassword } = require('../utils/auth')
+const { createJSONToken, isValidPassword } = require('../utils/jwtUtils')
 
 class UserService {
     static async registerUser(data, type = 'REGULAR') {
