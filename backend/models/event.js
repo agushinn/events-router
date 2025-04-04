@@ -23,8 +23,18 @@ const eventSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        fileName: {
+            type: String,
+            nullable: true,
+            required: false,
+        },
+        imageMode: {
+            type: String,
+            enum: ['url', 'file'],
+            required: true,
+        },
     },
-    { timestamps: true }
+    { timestamps: true },
 )
 
 const Event = mongoose.model('Event', eventSchema)
