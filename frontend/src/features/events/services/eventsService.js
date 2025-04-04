@@ -3,6 +3,7 @@ import { redirect } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { API_URL } from '@constants/configs'
+import { IMAGE_TYPE } from '@constants/imageTypes'
 import { getAuthToken, getUserId } from '@services/auth'
 
 const handlerEventAction = async ({ request, params }) => {
@@ -11,12 +12,36 @@ const handlerEventAction = async ({ request, params }) => {
     const token = getAuthToken()
     const userId = getUserId()
 
-    const eventFormData = {
-        title: formData.get('title'),
-        image: formData.get('image'),
-        date: formData.get('date'),
-        description: formData.get('description'),
-        author_id: userId,
+    let bodyRequest
+    let headers = {
+        Authorization: `Bearer ${token}`,
+    }
+    const imageMode = formData.get('imageMode')
+
+    if (imageMode === IMAGE_TYPE.FILE) {
+        bodyRequest = new FormData()
+        bodyRequest.append('title', formData.get('title'))
+        bodyRequest.append('imageMode', imageMode)
+        bodyRequest.append('date', formData.get('date'))
+        bodyRequest.append('description', formData.get('description'))
+        bodyRequest.append('author_id', userId)
+
+        // only if there is a new file
+        const imageFile = formData.get('imageFile')
+        if (imageFile && imageFile.name !== '') {
+            bodyRequest.append('image', imageFile)
+        }
+    } else if (imageMode === IMAGE_TYPE.URL) {
+        bodyRequest = JSON.stringify({
+            title: formData.get('title'),
+            image: formData.get('imageUrl'),
+            imageMode: imageMode,
+            date: formData.get('date'),
+            description: formData.get('description'),
+            author_id: userId,
+        })
+
+        headers['Content-Type'] = 'application/json'
     }
 
     let url = `${API_URL}events`
@@ -27,11 +52,8 @@ const handlerEventAction = async ({ request, params }) => {
 
     const response = await fetch(url, {
         method: method,
-        body: JSON.stringify(eventFormData),
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-        },
+        body: bodyRequest,
+        headers,
     })
 
     const responseData = await response.json()
