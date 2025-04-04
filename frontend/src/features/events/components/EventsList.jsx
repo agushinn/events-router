@@ -74,7 +74,7 @@ function EventsList({ events, meta, title }) {
                 <ul className={styles.pagination}>
                     <li>
                         <Link
-                            to={`/events?page=1&limit=${itemsPerPage}`}
+                            to={`?page=1&limit=${itemsPerPage}`}
                             aria-label="Go to first page"
                         >
                             {'<<'}
@@ -82,7 +82,7 @@ function EventsList({ events, meta, title }) {
                     </li>
                     <li>
                         <Link
-                            to={`/events?page=${
+                            to={`?page=${
                                 !previousPage ? 1 : previousPage
                             }&limit=${itemsPerPage}`}
                             aria-label="Go to previous page"
@@ -103,7 +103,7 @@ function EventsList({ events, meta, title }) {
 
                     <li>
                         <Link
-                            to={`/events?page=${
+                            to={`?page=${
                                 !hasNextPage ? lastPage : nextPage
                             }&limit=${itemsPerPage}`}
                             aria-label="Go to next page"
@@ -116,7 +116,7 @@ function EventsList({ events, meta, title }) {
                     </li>
                     <li>
                         <Link
-                            to={`/events?page=${lastPage}&limit=${itemsPerPage}`}
+                            to={`?page=${lastPage}&limit=${itemsPerPage}`}
                             aria-label="Go to last page"
                         >
                             {'>>'}
