@@ -12,6 +12,7 @@ const {
     errorHandlerMiddleware,
 } = require('./middlewares/errorHandler')
 const swaggerMiddleware = require('./middlewares/swagger')
+const multerMiddleware = require('./middlewares/multer')
 
 const authRoutes = require('./routes/AuthRoutes.js')
 const eventRoutes = require('./routes/EventRoutes.js')
@@ -29,6 +30,7 @@ dbConnection()
 app.use(securityMiddleware)
 app.use(globalLimiter)
 app.use(corsMiddleware)
+multerMiddleware(app)
 app.use(express.json())
 
 // Routes
