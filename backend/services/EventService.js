@@ -1,5 +1,3 @@
-const chalk = require('chalk')
-
 const EventRepository = require('../repositories/EventRepository')
 const { InvalidParamError } = require('../factory/ErrorsFactory')
 const {
@@ -212,7 +210,6 @@ class EventService {
 
         const updated = await EventRepository.replace(id, bodyData)
 
-        console.log(chalk.green('Evento actualizado con éxito'))
         return updated
     }
 
