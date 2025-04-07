@@ -1,34 +1,124 @@
 .events {
     margin: 2rem auto;
-    max-width: 40rem;
+    width: 40rem;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 }
 
 .list {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-}
 
-.elements {
-    background-color: var(--color-gray-700);
-    height: 12rem;
+    @media (max-width: 768px) {
+        width: 20rem;
+        margin: auto;
+    }
+}
+.headerSkeleton {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: row;
+
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+    width: 40rem;
+
+    .titleSkeleton {
+        width: 15rem;
+        height: 1.5rem;
+        background-color: var(--color-gray-700);
+        border-radius: 4px;
+        animation: loading-skeleton 1s linear infinite alternate;
+        animation-delay: 0.1s;
+    }
+    .selectSkeleton {
+        width: 5rem;
+        height: 1.5rem;
+        background-color: var(--color-gray-700);
+        border-radius: 4px;
+        animation: loading-skeleton 1s linear infinite alternate;
+        animation-delay: 0.1s;
+    }
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+}
+.item {
+    background-color: var(--color-gray-800);
+    display: flex;
     border-radius: 4px;
-    animation: loading-skeleton 3s linear infinite alternate;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+        height: 20rem;
+        flex-direction: column;
+    }
 }
 
 .image {
     width: 33%;
-    background-color: var(--color-gray-600);
-    height: 100%;
+    aspect-ratio: 1/1;
+    background-color: var(--color-gray-700);
     animation: loading-skeleton 1s linear infinite alternate;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+}
+.itemA {
+    @media (max-width: 768px) {
+        height: 25rem;
+    }
+}
+.itemB {
+    @media (max-width: 768px) {
+        height: 15rem;
+        .image {
+            height: 60%;
+        }
+    }
+}
+.itemC {
+    @media (max-width: 768px) {
+        height: 30rem;
+    }
 }
 
+.content {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.title {
+    width: 70%;
+    height: 1.5rem;
+    background-color: var(--color-gray-700);
+    border-radius: 4px;
+    animation: loading-skeleton 1s linear infinite alternate;
+    animation-delay: 0.1s;
+}
+
+.date {
+    width: 50%;
+    height: 1rem;
+    background-color: var(--color-gray-700);
+    border-radius: 4px;
+    animation: loading-skeleton 1s linear infinite alternate;
+    animation-delay: 0.1s;
+}
 
 @keyframes loading-skeleton {
     0% {
         background-color: var(--color-gray-700);
     }
-
     100% {
         background-color: var(--color-gray-600);
     }
