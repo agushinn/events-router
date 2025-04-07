@@ -3,8 +3,8 @@ import {
     handlerEventAction,
     eventDetailLoader,
     eventDeleteAction,
-    eventsLoader,
     myEventsLoader,
+    loadEvents,
 } from '@events/services/eventsService'
 import { EventsPage } from '@events/pages/EventsPage'
 import { EventDetailPage } from '@events/pages/EventDetailPage'
@@ -19,7 +19,7 @@ const eventsRoutes = {
         {
             path: '',
             element: <EventsPage title="All Events" />,
-            loader: eventsLoader,
+            loader: loadEvents,
         },
         {
             path: ':eventId',
