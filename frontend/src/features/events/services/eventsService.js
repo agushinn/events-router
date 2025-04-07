@@ -1,4 +1,4 @@
-import { redirect } from 'react-router-dom'
+import { redirect, defer } from 'react-router-dom'
 
 import { toast } from 'react-toastify'
 
@@ -106,22 +106,26 @@ const myEventsLoader = async ({ request, params }) => {
     const limit = url.searchParams.get('limit') || 5
     const { userId } = params
 
-    const response = await fetch(
-        `${API_URL}events/users/${userId}?page=${page}&limit=${limit}`
-    )
-
-    const data = await response.json()
-
-    if (!data.success) {
-        throw new Response(
-            JSON.stringify({
-                message: data.message || 'Could not fetch events.',
-            }),
-            { status: 500 }
+    const eventsPromise = async () => {
+        const response = await fetch(
+            `${API_URL}events/users/${userId}?page=${page}&limit=${limit}`
         )
+
+        const data = await response.json()
+
+        if (!data.success) {
+            throw new Response(
+                JSON.stringify({
+                    message: data.message || 'Could not fetch events.',
+                }),
+                { status: 500 }
+            )
+        }
+
+        return { events: data.data.events, meta: data.data.meta }
     }
 
-    return { events: data.data.events, meta: data.data.meta }
+    return defer({ eventsData: eventsPromise() })
 }
 
 const loadEvents = async ({ request }) => {
@@ -129,39 +133,33 @@ const loadEvents = async ({ request }) => {
     const page = url.searchParams.get('page') || 1
     const limit = url.searchParams.get('limit') || 5
 
-    const response = await fetch(`${API_URL}events?page=${page}&limit=${limit}`)
-    const data = await response.json()
-
-    if (!data.success) {
-        throw new Response(
-            JSON.stringify({
-                message: data.message || 'Could not fetch events.',
-            }),
-            { status: 500 }
+    const eventsPromise = async () => {
+        const response = await fetch(
+            `${API_URL}events?page=${page}&limit=${limit}`
         )
+
+        if (!response.ok) {
+            throw new Error('Network error')
+        }
+
+        const data = await response.json()
+
+        if (!data.success) {
+            throw new Response(
+                JSON.stringify({
+                    message: data.message || 'Error fetching events',
+                }),
+                { status: 500 }
+            )
+        }
+
+        return {
+            events: data.data.events,
+            meta: data.data.meta,
+        }
     }
 
-    return { events: data.data.events, meta: data.data.meta }
-}
-
-// const loadPosts = async () => {
-//     const response = await fetch('http://localhost:8081/posts')
-//     // ...
-// }
-// const loadUsers = async () => {
-//     const response = await fetch('http://localhost:8081/users')
-//     // ...
-// }
-
-const eventsLoader = ({ request, params }) => {
-    // const { userId } = params.user
-    return loadEvents({ request, params })
-    //  defer({
-    // Promises to defer
-    // events: loadEvents(),
-    // posts: loadPosts(),
-    // users: loadUser(userId),
-    // })
+    return defer({ eventsData: eventsPromise() })
 }
 
 export {
@@ -169,5 +167,5 @@ export {
     eventDetailLoader,
     eventDeleteAction,
     myEventsLoader,
-    eventsLoader,
+    loadEvents,
 }

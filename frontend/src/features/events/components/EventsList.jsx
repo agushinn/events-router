@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import styles from '@events/styles/EventsList.module.scss'
 
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams, useNavigation } from 'react-router-dom'
 
 function EventsList({ events, meta, title }) {
+    const navigation = useNavigation()
+    const isLoading = navigation.state === 'loading'
+
     const {
         totalEvents,
         hasNextPage,
@@ -32,6 +35,12 @@ function EventsList({ events, meta, title }) {
             setSearchParams({ ...currentParams, page: 1, limit })
         }
     }, [limit, searchParams, setSearchParams])
+
+    const handleLinkClick = (e) => {
+        if (isLoading) {
+            e.preventDefault()
+        }
+    }
 
     return (
         <section>
@@ -74,23 +83,26 @@ function EventsList({ events, meta, title }) {
                 <ul className={styles.pagination}>
                     <li>
                         <Link
+                            onClick={handleLinkClick}
                             to={`?page=1&limit=${itemsPerPage}`}
                             aria-label="Go to first page"
+                            className={`${isLoading ? styles.loading : ''}`}
                         >
                             {'<<'}
                         </Link>
                     </li>
                     <li>
                         <Link
+                            onClick={handleLinkClick}
                             to={`?page=${
                                 !previousPage ? 1 : previousPage
                             }&limit=${itemsPerPage}`}
                             aria-label="Go to previous page"
-                            className={
+                            className={`${
                                 hasPreviousPage
                                     ? styles.previousPage
                                     : styles.disabled
-                            }
+                            } ${isLoading ? styles.loading : ''}`}
                         >
                             Previous
                         </Link>
@@ -103,21 +115,24 @@ function EventsList({ events, meta, title }) {
 
                     <li>
                         <Link
+                            onClick={handleLinkClick}
                             to={`?page=${
                                 !hasNextPage ? lastPage : nextPage
                             }&limit=${itemsPerPage}`}
                             aria-label="Go to next page"
-                            className={
+                            className={`${
                                 hasNextPage ? styles.nextPage : styles.disabled
-                            }
+                            } ${isLoading ? styles.loading : ''}`}
                         >
                             Next
                         </Link>
                     </li>
                     <li>
                         <Link
+                            onClick={handleLinkClick}
                             to={`?page=${lastPage}&limit=${itemsPerPage}`}
                             aria-label="Go to last page"
+                            className={`${isLoading ? styles.loading : ''}`}
                         >
                             {'>>'}
                         </Link>

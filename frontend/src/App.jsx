@@ -1,3 +1,4 @@
+import { Loader } from '@components/Loader/Loader'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ToastContainer, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -10,10 +11,7 @@ const router = createBrowserRouter(routes)
 function App() {
     return (
         <>
-            <RouterProvider
-                router={router}
-                fallbackElement={<div>Loading...</div>}
-            />
+            <RouterProvider router={router} fallbackElement={<Loader />} />
 
             <ToastContainer
                 position="bottom-right"
