@@ -137,7 +137,7 @@ class EventService {
 
         const eventToUpdate = await EventRepository.get(id)
         const eventToUpdateAuthor = eventToUpdate.author_id.toString()
-        const userTryingToUpdate = bodyData.author_id
+        const userTryingToUpdate = data.author_id
 
         if (eventToUpdateAuthor !== userTryingToUpdate) {
             throw new NotAuthError(
