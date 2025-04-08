@@ -1,5 +1,5 @@
 const EventRepository = require('../repositories/EventRepository')
-const { InvalidParamError } = require('../factory/ErrorsFactory')
+const { InvalidParamError, NotAuthError } = require('../factory/ErrorsFactory')
 const {
     isValidText,
     isValidDate,
@@ -135,15 +135,35 @@ class EventService {
             )
         }
 
+        const eventToUpdate = await EventRepository.get(id)
+        const eventToUpdateAuthor = eventToUpdate.author_id.toString()
+        const userTryingToUpdate = bodyData.author_id
+
+        if (eventToUpdateAuthor !== userTryingToUpdate) {
+            throw new NotAuthError(
+                'You are not authorized to update this event',
+            )
+        }
+
         return await EventRepository.replace(id, data)
     }
 
-    static async deleteEvent(id) {
-        if (!id || id === '') {
+    static async deleteEvent(eventId, userId) {
+        if (!eventId || eventId === '') {
             throw new InvalidParamError('ID is required')
         }
 
-        return await EventRepository.remove(id)
+        const eventToUpdate = await EventRepository.get(eventId)
+        const eventToUpdateAuthor = eventToUpdate.author_id.toString()
+        const userTryingToUpdate = userId
+
+        if (eventToUpdateAuthor !== userTryingToUpdate) {
+            throw new NotAuthError(
+                'You are not authorized to delete this event',
+            )
+        }
+
+        return await EventRepository.remove(eventId)
     }
 }
 

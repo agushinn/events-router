@@ -54,7 +54,11 @@ class EventController {
 
     static async deleteEvent(req, res, next) {
         try {
-            const deletedId = await EventService.deleteEvent(req.params.id)
+            const { userId } = req.body
+            const deletedId = await EventService.deleteEvent(
+                req.params.id,
+                userId,
+            )
             ApiController.sendSuccessResponse(
                 res,
                 { message: 'Event deleted with id ' + deletedId },

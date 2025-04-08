@@ -74,6 +74,7 @@ const eventDeleteAction = async ({ request, params }) => {
     const { method } = request
     const { eventId } = params
     const token = getAuthToken()
+    const userId = getUserId()
 
     const response = await fetch(`${API_URL}events/${eventId}`, {
         method: method,
@@ -81,6 +82,9 @@ const eventDeleteAction = async ({ request, params }) => {
             Authorization: `Bearer ${token}`,
             'Content-type': 'application/json',
         },
+        body: JSON.stringify({
+            userId: userId,
+        }),
     })
 
     const data = await response.json()

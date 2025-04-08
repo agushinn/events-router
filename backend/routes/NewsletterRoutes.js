@@ -1,7 +1,7 @@
 const express = require('express')
 
 const NewsletterController = require('../controllers/NewsletterController')
-const { checkAuthMiddleware } = require('../middlewares/auth')
+const { checkAuthMiddleware } = require('../middlewares/authorization')
 
 const router = express.Router()
 
@@ -11,7 +11,7 @@ router.post('/send', checkAuthMiddleware, NewsletterController.sendEmails)
 router.delete(
     '/unsubscribe',
     checkAuthMiddleware,
-    NewsletterController.unsubscribeEmails
+    NewsletterController.unsubscribeEmails,
 )
 
 module.exports = router
